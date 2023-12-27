@@ -151,21 +151,27 @@
 
 //?_____________________________________________
 //* ОПОВЕЩЕНИЯ
-
+const NOTIFICATION_DELAY = 3000;
 const refs = {
   notification: document.querySelector('.js-alert'),
 };
 
-refs.notification.addEventListener('click', onClick)
+refs.notification.addEventListener('click', onClick);
+
+showNotification();
 
 function onClick() {
-    //
+  hideNotification();
 }
 
 function showNotification() {
-    refs.notification.classList.add('is-visible')
+  refs.notification.classList.add('is-visible');
+
+  setTimeout(() => {
+    refs.notification.classList.remove('is-visible');
+  }, NOTIFICATION_DELAY);
 }
 
 function hideNotification() {
-    refs.notification.classList.remove('is-visible');
+  refs.notification.classList.remove('is-visible');
 }
