@@ -151,27 +151,81 @@
 
 //?_____________________________________________
 //* ОПОВЕЩЕНИЯ
-const NOTIFICATION_DELAY = 3000;
+// const NOTIFICATION_DELAY = 3000;
+// const refs = {
+//   notification: document.querySelector('.js-alert'),
+// };
+// let timeoutId = null;
+
+// refs.notification.addEventListener('click', onClick);
+
+// showNotification();
+
+// function onClick() {
+//   hideNotification();
+//   clearTimeout(timeoutId);
+// }
+
+// function showNotification() {
+//   refs.notification.classList.add('is-visible');
+
+//   timeoutId = setTimeout(() => {
+//     hideNotification();
+//   }, NOTIFICATION_DELAY);
+// }
+
+// function hideNotification() {
+//   refs.notification.classList.remove('is-visible');
+// }
+
+//?_____________________________________________
+import * as BSN from 'bootstrap.native';
+
+// const PROMPT_DELAY = 1000;
+// const MAX_PROMPT_ATTEMPTS = 3;
+
+// let promptCounter = 0;
+// let hasSubscribed = false;
+
+// const intervalId = setInterval(() => {
+//     if (promptCounter === MAX_PROMPT_ATTEMPTS || hasSubscribed) {
+//         clearInterval(intervalId);
+//         return
+//     }
+//     console.log('Подпишись на рассылку! - ' + Date.now());
+//     promptCounter += 1
+// }, PROMPT_DELAY);
+
+//?_____________________________________________
+const modal = new BSN.Modal('#exampleModal');
+
 const refs = {
-  notification: document.querySelector('.js-alert'),
+  modal: document.querySelector('#exampleModal'),
+  sunscribeBtn: document.querySelector('button[data-subscribe]'),
 };
+let promptCounter = 0;
+let hasSubscribed = false;
+const PROMPT_DELAY = 3000;
+const MAX_PROMPT_ATTEMPTS = 3;
 
-refs.notification.addEventListener('click', onClick);
+openModal();
 
-showNotification();
+refs.modal.addEventListener('hide.bs.modal', openModal);
+refs.sunscribeBtn.addEventListener('click', onSubscribe);
 
-function onClick() {
-  hideNotification();
-}
-
-function showNotification() {
-  refs.notification.classList.add('is-visible');
-
+function openModal() {
+  if (promptCounter === MAX_PROMPT_ATTEMPTS || hasSubscribed) {
+    console.log('Максимальное количество надоеданий или подписался!');
+    return;
+  }
   setTimeout(() => {
-    refs.notification.classList.remove('is-visible');
-  }, NOTIFICATION_DELAY);
+    console.log('Открываем надоедалку!');
+    modal.show();
+    promptCounter += 1;
+  }, PROMPT_DELAY);
 }
 
-function hideNotification() {
-  refs.notification.classList.remove('is-visible');
+function onSubscribe() {
+  hasSubscribed = true;
+  modal.hide();
 }
