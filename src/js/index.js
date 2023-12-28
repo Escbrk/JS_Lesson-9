@@ -197,35 +197,98 @@ import * as BSN from 'bootstrap.native';
 // }, PROMPT_DELAY);
 
 //?_____________________________________________
-const modal = new BSN.Modal('#exampleModal');
+// const modal = new BSN.Modal('#exampleModal');
+
+// const refs = {
+//   modal: document.querySelector('#exampleModal'),
+//   sunscribeBtn: document.querySelector('button[data-subscribe]'),
+// };
+// let promptCounter = 0;
+// let hasSubscribed = false;
+// const PROMPT_DELAY = 3000;
+// const MAX_PROMPT_ATTEMPTS = 3;
+
+// openModal();
+
+// refs.modal.addEventListener('hide.bs.modal', openModal);
+// refs.sunscribeBtn.addEventListener('click', onSubscribe);
+
+// function openModal() {
+//   if (promptCounter === MAX_PROMPT_ATTEMPTS || hasSubscribed) {
+//     console.log('Максимальное кол-во надоеданий или подписался!');
+//     return;
+//   }
+//   setTimeout(() => {
+//     console.log('Открываем надоедалку!');
+//     modal.show();
+//     promptCounter += 1;
+//   }, PROMPT_DELAY);
+// }
+
+// function onSubscribe() {
+//   hasSubscribed = true;
+//   modal.hide();
+// }
+
+//?_____________________________________________
+
+// const date = Date.now()
+
+// setTimeout(() => {
+//   const date2 = Date.now();
+
+//   console.log(date)
+//   console.log(date2)
+//   console.log(date2 - date)
+// }, 3000)
+
+//! TIMER
 
 const refs = {
-  modal: document.querySelector('#exampleModal'),
-  sunscribeBtn: document.querySelector('button[data-subscribe]'),
+  clockface: document.querySelector('.js-clockface'),
+  start: document.querySelector('button[data-action-start]'),
+  stop: document.querySelector('button[data-action-stop]'),
 };
-let promptCounter = 0;
-let hasSubscribed = false;
-const PROMPT_DELAY = 3000;
-const MAX_PROMPT_ATTEMPTS = 3;
 
-openModal();
-
-refs.modal.addEventListener('hide.bs.modal', openModal);
-refs.sunscribeBtn.addEventListener('click', onSubscribe);
-
-function openModal() {
-  if (promptCounter === MAX_PROMPT_ATTEMPTS || hasSubscribed) {
-    console.log('Максимальное количество надоеданий или подписался!');
-    return;
+const timer = {
+  intervalId: null,
+  start() {
+    const startTime = Date.now();
+    this.intervalId = setInterval(() => {
+      const currentTime = Date.now();
+      const deltaTime = currentTime - startTime;
+      const time = getTimeComponents(deltaTime);
+      updClockface(time);
+    }, 1000);
+    refs.start.disabled = true
+  },
+  stop() {
+    clearInterval(this.intervalId);
+    refs.start.disabled = false
   }
-  setTimeout(() => {
-    console.log('Открываем надоедалку!');
-    modal.show();
-    promptCounter += 1;
-  }, PROMPT_DELAY);
+};
+
+function pad(value) {
+  return String(value).padStart(2, 0);
 }
 
-function onSubscribe() {
-  hasSubscribed = true;
-  modal.hide();
+refs.start.addEventListener('click', () => {
+  timer.start();
+});
+refs.stop.addEventListener('click', () => {
+  timer.stop()
+})
+
+function getTimeComponents(time) {
+  const hours = pad(
+    Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+  );
+  const mins = pad(Math.floor((time % (1000 * 60 * 60)) / (1000 * 60)));
+  const secs = pad(Math.floor((time % (1000 * 60)) / 1000));
+
+  return { hours, mins, secs };
+}
+
+function updClockface({ hours, mins, secs }) {
+  refs.clockface.textContent = `${hours}:${mins}:${secs}`;
 }
