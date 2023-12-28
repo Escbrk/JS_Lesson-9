@@ -244,51 +244,86 @@ import * as BSN from 'bootstrap.native';
 
 //! TIMER
 
-const refs = {
-  clockface: document.querySelector('.js-clockface'),
-  start: document.querySelector('button[data-action-start]'),
-  stop: document.querySelector('button[data-action-stop]'),
-};
+// const refs = {
+//   clockface: document.querySelector('.js-clockface'),
+//   start: document.querySelector('button[data-action-start]'),
+//   stop: document.querySelector('button[data-action-stop]'),
+// };
 
-const timer = {
-  intervalId: null,
-  start() {
-    const startTime = Date.now();
-    this.intervalId = setInterval(() => {
-      const currentTime = Date.now();
-      const deltaTime = currentTime - startTime;
-      const time = getTimeComponents(deltaTime);
-      updClockface(time);
-    }, 1000);
-    refs.start.disabled = true
-  },
-  stop() {
-    clearInterval(this.intervalId);
-    refs.start.disabled = false
-  }
-};
+// class Timer {
+//   constructor({ onTick }) {
+//     this.intervalId = null;
+//     this.onTick = onTick;
 
-function pad(value) {
-  return String(value).padStart(2, 0);
-}
+//     this.init();
+//   }
 
-refs.start.addEventListener('click', () => {
-  timer.start();
+//   init() {
+//     const time = this.getTimeComponents(0);
+
+//     this.onTick(time);
+//   }
+//   start() {
+//     const startTime = Date.now();
+
+//     this.intervalId = setInterval(() => {
+//       const currentTime = Date.now();
+//       const deltaTime = currentTime - startTime;
+
+//       const time = this.getTimeComponents(deltaTime);
+//       this.onTick(time);
+//     }, 1000);
+//     refs.start.disabled = true;
+//   }
+//   stop() {
+//     clearInterval(this.intervalId);
+//     refs.start.disabled = false;
+
+//     const time = this.getTimeComponents(0);
+//     this.onTick(time);
+//   }
+
+//   getTimeComponents(time) {
+//     const days = this.pad(Math.floor((time / (1000 * 60 * 60 * 24))));
+//     const hours = this.pad(
+//       Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+//     );
+//     const mins = this.pad(Math.floor((time % (1000 * 60 * 60)) / (1000 * 60)));
+//     const secs = this.pad(Math.floor((time % (1000 * 60)) / 1000));
+
+//     return { days, hours, mins, secs };
+//   }
+
+//   pad(value) {
+//     return String(value).padStart(2, 0);
+//   }
+// }
+
+// const timer = new Timer({
+//   onTick: updClockface,
+// });
+
+// refs.start.addEventListener('click', timer.start.bind(timer));
+// refs.stop.addEventListener('click', timer.stop.bind(timer));
+
+// function updClockface({ days, hours, mins, secs }) {
+//   refs.clockface.textContent = `Day(s):${days} / Time: ${hours}:${mins}:${secs}`;
+// }
+
+//?_____________________________________________
+
+//! PROMISE
+
+const promise = new Promise((res, rej) => {
+  const canFulfill = Math.random() > 0.5;
+
+  setTimeout(() => {
+    if (canFulfill) {
+      res('✅ Promise is succesfull');
+    }
+
+    rej("❌ Promise is't succesfull");
+  }, 1000);
 });
-refs.stop.addEventListener('click', () => {
-  timer.stop()
-})
 
-function getTimeComponents(time) {
-  const hours = pad(
-    Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
-  );
-  const mins = pad(Math.floor((time % (1000 * 60 * 60)) / (1000 * 60)));
-  const secs = pad(Math.floor((time % (1000 * 60)) / 1000));
-
-  return { hours, mins, secs };
-}
-
-function updClockface({ hours, mins, secs }) {
-  refs.clockface.textContent = `${hours}:${mins}:${secs}`;
-}
+promise.then(res => console.log(res)).catch(err => console.log(err))
