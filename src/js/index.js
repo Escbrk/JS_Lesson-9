@@ -314,16 +314,203 @@ import * as BSN from 'bootstrap.native';
 
 //! PROMISE
 
-const promise = new Promise((res, rej) => {
-  const canFulfill = Math.random() > 0.5;
+// const promise = new Promise((res, rej) => {
+//   const canFulfill = Math.random() > 0.5;
 
-  setTimeout(() => {
-    if (canFulfill) {
-      res('✅ Promise is succesfull');
-    }
+//   setTimeout(() => {
+//     if (canFulfill) {
+//       res('✅ Promise is succesfull');
+//     }
 
-    rej("❌ Promise is't succesfull");
-  }, 1000);
+//     rej("❌ Promise is't succesfull");
+//   }, 1000);
+// });
+
+// promise.then(res => console.log(res)).catch(err => console.log(err))
+
+//?_____________________________________________
+
+//! ПРОМИСИФИКАЦИЯ
+//*   - Проблема доступа к результату промиса с колбеком
+//*   - Функция которая возвращает промис
+
+// const makeOrder = dish => {
+//   const DELAY = 1000;
+
+//   return new Promise((res, rej) => {
+//     const passed = Math.random() > 0.5;
+
+//     setTimeout(() => {
+//       if (passed) {
+//         res(`Вот ваше блюдо: ${dish}`);
+//       }
+//       rej('Такого блюда нет');
+//     }, DELAY);
+//   });
+// };
+
+// makeOrder('пирожок').then(onMakeOrderSucces).catch(onMakeOrderError);
+
+// function onMakeOrderSucces(result) {
+//   console.log('onMakeOrderSucces ->', result);
+// }
+
+// function onMakeOrderError(error) {
+//   console.error('onMakeOrderError ->', error);
+// }
+
+//?_____________________________________________
+
+/*
+ *    Промисификация "синхронных" функций
+ *      - Promise.resolve()
+ *      - Promise.reject()
+ */
+
+// const makeOrder = dish => {
+//   return Promise.resolve(`Вот ваше блюдо: ${dish}`);
+// };
+
+// makeOrder('пирожок').then(onMakeOrderSucces).catch(onMakeOrderError);
+
+// function onMakeOrderSucces(result) {
+//   console.log('onMakeOrderSucces ->', result);
+// }
+
+// function onMakeOrderError(error) {
+//   console.error('onMakeOrderError ->', error);
+// }
+
+//?_____________________________________________
+//! FETCH
+
+// const fetchPokemonById = id => {
+//   const BASE_URL = 'https://pokeapi.co/api/v2/pokemon';
+//   return fetch(`${BASE_URL}/${id}`).then(x => x.json());
+// };
+
+// fetchPokemonById(6)
+//   .then(result => console.log(result))
+//   .catch(err => console.log(err));
+
+// fetchPokemonById(10)
+//   .then(result => console.log(result))
+//   .catch(err => console.log(err));
+
+// fetchPokemonById(16)
+//   .then(result => console.log(result))
+//   .catch(err => console.log(err));
+
+// fetchPokemonById(60)
+//   .then(result => console.log(result))
+//   .catch(err => console.log(err));
+
+//?_____________________________________________
+
+// const makePromise = () =>
+//   new Promise((res, rej) => {
+//     const passed = Math.random() > 0.5;
+
+//     setTimeout(() => {
+//       if (passed) {
+//         res('Resolve');
+//       }
+//       rej('Nope');
+//     }, 2000);
+//   });
+// makePromise()
+//   .then(result => console.log(result))
+//   .catch(err => console.error(err));
+
+//?_____________________________________________
+
+//! RACETRACK
+
+const refs = {
+  startBtn: document.querySelector('.js-start-btn'),
+  winner: document.querySelector('.js-winner'),
+  progress: document.querySelector('.js-progress'),
+  tableBody: document.querySelector('.js-results-table > tbody'),
+};
+
+refs.startBtn.addEventListener('click', () => {
+  const promises = horses.map(run);
+
+  updWinner('');
+  updProgress('🤖 Заезд начался, ставки не принимаются!');
+
+  Promise.race(promises).then(({ horse, time }) => {
+    updWinner(`🏅 Победил ${horse}, финишировав за ${time} времени`);
+    updResult({ horse, time });
+  });
+
+  Promise.all(promises).then(() =>
+    updProgress('🔚 Заезд окончен, принимаются ставки')
+  );
 });
 
-promise.then(res => console.log(res)).catch(err => console.log(err))
+const horses = [
+  'Secretariat',
+  'Eclipse',
+  'West Australian',
+  'Flying Fox',
+  'Seabiscuit',
+];
+
+function run(horse) {
+  return new Promise((res, rej) => {
+    const time = getRandomeTime(2000, 3500);
+
+    setTimeout(() => {
+      res({ horse, time });
+    }, time);
+  });
+}
+
+function updResult({ horse, time }) {
+  const tr = `
+  <tr>
+      <td>0</td>
+      <td>${horse}</td>
+      <td>${time}</td>
+  </tr>`;
+
+  refs.tableBody.insertAdjacentHTML('beforeend', tr);
+}
+
+function getRandomeTime(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+function updProgress(message) {
+  refs.progress.textContent = message;
+}
+function updWinner(message) {
+  refs.winner.textContent = message;
+}
+
+// console.log(
+//   '%c🤖 Заезд начался, ставки не принимаются!',
+//   'color: brown; font-size: 14px'
+// );
+
+/*
+ *    Promise.race([]) для ожидания первого выполнившегося промиса
+ */
+
+// Promise.race(promises).then(({ horse, time }) =>
+//   console.log(
+//     `%c🏅 Победил ${horse}, финишировав за ${time} времени`,
+//     'color: green; font-size: 14px'
+//   )
+// );
+
+// /*
+//  *    Promise.all([]) для ожидания всех промисов
+//  */
+
+// Promise.all(promises).then(() =>
+//   console.log(
+//     '%c🔚 Заезд окончен, принимаются ставки',
+//     'color: blue; font-size: 14px'
+//   )
+// );

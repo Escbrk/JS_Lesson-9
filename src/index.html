@@ -60,6 +60,12 @@ textarea {
       right: 0;
       bottom: 0;
     } */
+
+    .js-results-table th,
+    tbody td {
+      border: 1px solid black;
+      padding: 5px;
+    }
   </style>
   <body>
     <!-- <form class="feedback-form js-feedback-form" autocomplete="off">
@@ -131,6 +137,27 @@ textarea {
       <p class="clockface js-clockface"></p>
     </div> -->
     <!--! TIMER -->
+
+    <!--! RACETRACK -->
+
+    <button class="js-start-btn">Следующий заезд</button>
+    <hr />
+    <p class="js-progress"></p>
+    <p class="js-winner"></p>
+    <hr />
+
+    <table class="js-results-table">
+      <thead>
+        <tr>
+          <th>Заезд</th>
+          <th>Победитель</th>
+          <th>Время</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <!--! RACETRACK -->
 
     <script src="./js/index.js" type="module"></script>
   </body>
