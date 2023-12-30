@@ -432,22 +432,9 @@ const refs = {
   progress: document.querySelector('.js-progress'),
   tableBody: document.querySelector('.js-results-table > tbody'),
 };
+let raceCounter = 0;
 
-refs.startBtn.addEventListener('click', () => {
-  const promises = horses.map(run);
-
-  updWinner('');
-  updProgress('🤖 Заезд начался, ставки не принимаются!');
-
-  Promise.race(promises).then(({ horse, time }) => {
-    updWinner(`🏅 Победил ${horse}, финишировав за ${time} времени`);
-    updResult({ horse, time });
-  });
-
-  Promise.all(promises).then(() =>
-    updProgress('🔚 Заезд окончен, принимаются ставки')
-  );
-});
+refs.startBtn.addEventListener('click', startRace);
 
 const horses = [
   'Secretariat',
@@ -456,7 +443,16 @@ const horses = [
   'Flying Fox',
   'Seabiscuit',
 ];
+function startRace() {
+  raceCounter += 1
+  const promises = horses.map(run);
 
+  updWinner('');
+  updProgress('🤖 Заезд начался, ставки не принимаются!');
+
+  determineWinner(promises);
+  waitForAll(promises);
+}
 function run(horse) {
   return new Promise((res, rej) => {
     const time = getRandomeTime(2000, 3500);
@@ -466,18 +462,26 @@ function run(horse) {
     }, time);
   });
 }
-
-function updResult({ horse, time }) {
+function determineWinner(horsesP) {
+  Promise.race(horsesP).then(({ horse, time }) => {
+    updWinner(`🏅 Победил ${horse}, финишировав за ${time} времени`);
+    updResult({ horse, time, raceCounter });
+  });
+}
+function waitForAll(horsesP) {
+  Promise.all(horsesP).then(() =>
+    updProgress('🔚 Заезд окончен, принимаются ставки')
+  );
+}
+function updResult({ horse, time, raceCounter }) {
   const tr = `
   <tr>
-      <td>0</td>
+      <td>${raceCounter}</td>
       <td>${horse}</td>
       <td>${time}</td>
   </tr>`;
-
   refs.tableBody.insertAdjacentHTML('beforeend', tr);
 }
-
 function getRandomeTime(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
@@ -487,11 +491,6 @@ function updProgress(message) {
 function updWinner(message) {
   refs.winner.textContent = message;
 }
-
-// console.log(
-//   '%c🤖 Заезд начался, ставки не принимаются!',
-//   'color: brown; font-size: 14px'
-// );
 
 /*
  *    Promise.race([]) для ожидания первого выполнившегося промиса
