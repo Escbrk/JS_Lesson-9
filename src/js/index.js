@@ -426,71 +426,71 @@ import * as BSN from 'bootstrap.native';
 
 //! RACETRACK
 
-const refs = {
-  startBtn: document.querySelector('.js-start-btn'),
-  winner: document.querySelector('.js-winner'),
-  progress: document.querySelector('.js-progress'),
-  tableBody: document.querySelector('.js-results-table > tbody'),
-};
-let raceCounter = 0;
+// const refs = {
+//   startBtn: document.querySelector('.js-start-btn'),
+//   winner: document.querySelector('.js-winner'),
+//   progress: document.querySelector('.js-progress'),
+//   tableBody: document.querySelector('.js-results-table > tbody'),
+// };
+// let raceCounter = 0;
 
-refs.startBtn.addEventListener('click', startRace);
+// refs.startBtn.addEventListener('click', startRace);
 
-const horses = [
-  'Secretariat',
-  'Eclipse',
-  'West Australian',
-  'Flying Fox',
-  'Seabiscuit',
-];
-function startRace() {
-  raceCounter += 1
-  const promises = horses.map(run);
+// const horses = [
+//   'Secretariat',
+//   'Eclipse',
+//   'West Australian',
+//   'Flying Fox',
+//   'Seabiscuit',
+// ];
+// function startRace() {
+//   raceCounter += 1
+//   const promises = horses.map(run);
 
-  updWinner('');
-  updProgress('🤖 Заезд начался, ставки не принимаются!');
+//   updWinner('');
+//   updProgress('🤖 Заезд начался, ставки не принимаются!');
 
-  determineWinner(promises);
-  waitForAll(promises);
-}
-function run(horse) {
-  return new Promise((res, rej) => {
-    const time = getRandomeTime(2000, 3500);
+//   determineWinner(promises);
+//   waitForAll(promises);
+// }
+// function run(horse) {
+//   return new Promise((res, rej) => {
+//     const time = getRandomeTime(2000, 3500);
 
-    setTimeout(() => {
-      res({ horse, time });
-    }, time);
-  });
-}
-function determineWinner(horsesP) {
-  Promise.race(horsesP).then(({ horse, time }) => {
-    updWinner(`🏅 Победил ${horse}, финишировав за ${time} времени`);
-    updResult({ horse, time, raceCounter });
-  });
-}
-function waitForAll(horsesP) {
-  Promise.all(horsesP).then(() =>
-    updProgress('🔚 Заезд окончен, принимаются ставки')
-  );
-}
-function updResult({ horse, time, raceCounter }) {
-  const tr = `
-  <tr>
-      <td>${raceCounter}</td>
-      <td>${horse}</td>
-      <td>${time}</td>
-  </tr>`;
-  refs.tableBody.insertAdjacentHTML('beforeend', tr);
-}
-function getRandomeTime(min, max) {
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
-function updProgress(message) {
-  refs.progress.textContent = message;
-}
-function updWinner(message) {
-  refs.winner.textContent = message;
-}
+//     setTimeout(() => {
+//       res({ horse, time });
+//     }, time);
+//   });
+// }
+// function determineWinner(horsesP) {
+//   Promise.race(horsesP).then(({ horse, time }) => {
+//     updWinner(`🏅 Победил ${horse}, финишировав за ${time} времени`);
+//     updResult({ horse, time, raceCounter });
+//   });
+// }
+// function waitForAll(horsesP) {
+//   Promise.all(horsesP).then(() =>
+//     updProgress('🔚 Заезд окончен, принимаются ставки')
+//   );
+// }
+// function updResult({ horse, time, raceCounter }) {
+//   const tr = `
+//   <tr>
+//       <td>${raceCounter}</td>
+//       <td>${horse}</td>
+//       <td>${time}</td>
+//   </tr>`;
+//   refs.tableBody.insertAdjacentHTML('beforeend', tr);
+// }
+// function getRandomeTime(min, max) {
+//   return Math.floor(Math.random() * (max - min + 1) + min);
+// }
+// function updProgress(message) {
+//   refs.progress.textContent = message;
+// }
+// function updWinner(message) {
+//   refs.winner.textContent = message;
+// }
 
 /*
  *    Promise.race([]) для ожидания первого выполнившегося промиса
@@ -513,3 +513,74 @@ function updWinner(message) {
 //     'color: blue; font-size: 14px'
 //   )
 // );
+
+//?_____________________________________________
+
+// const id = setTimeout(() => {
+//   console.log('done')
+// }, 1000)
+
+//! setTimeout(callback, time, [...args])
+//? clearTimeout()
+
+// const id = setTimeout((name, country) => {
+//   console.log(`Hello my name is ${name}, i'm from ${country}`)
+// }, 1000, 'Paul', 'Canada')
+
+//! setInterval(callback, time, [...args])
+//? clearInterval()
+
+// const id = setInterval(() => {
+//   console.log('setInterval');
+
+//   setTimeout(() => {
+//     clearInterval(id);
+//   }, 5000);
+// }, 1000);
+
+//?_____________________________________________
+
+// ! Продам Гараж
+// const refs = {
+//   content: document.querySelector('.js-content'),
+//   time: document.querySelector('.js-text'),
+// };
+
+// let counter = 10;
+// refs.time.textContent = `Осталось ${counter} секунд`;
+
+//! v1
+// const id = setInterval(() => {
+//   counter -= 1;
+
+//   refs.time.textContent = `Осталось ${counter} секунд`;
+
+//   if (counter <= 0) {
+//     clearInterval(id);
+//     refs.content.style.display = 'none'
+//   }
+// }, 1000);
+
+//! v2
+// const id = setInterval(() => {
+//   counter -= 1;
+//   refs.time.textContent = `Осталось ${counter} секунд`;
+// }, 1000);
+
+// setTimeout(() => {
+//   clearInterval(id)
+//   refs.content.style.display = 'none';
+// }, counter * 1000)
+
+//?_____________________________________________
+
+// setInterval(() => {
+//   const currentDate = Date.now();
+//   const targetDate = new Date('Dec 31 2023');
+//   const result = targetDate - currentDate;
+
+//   console.log(result);
+// }, 1000);
+
+//?_____________________________________________
+
