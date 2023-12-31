@@ -584,3 +584,19 @@ import * as BSN from 'bootstrap.native';
 
 //?_____________________________________________
 
+const promise = new Promise((res, rej) => {
+  const rand = Math.random();
+
+  setTimeout(() => {
+    if (rand < 0.5) {
+      res('✅');
+    } else {
+      rej('❌');
+    }
+  }, 0);
+});
+
+promise
+  .then(data => console.log(`Then block. Result: ${data}`))
+  .catch(err => console.error(`Catch block. Result: ${err}`))
+  .finally(() => console.log('Finally block'));
