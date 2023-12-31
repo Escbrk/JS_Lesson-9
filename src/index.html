@@ -14,59 +14,72 @@
   </head>
   <style>
     /*  .feedback-form {
-   display: flex;
-  flex-direction: column;
-  max-width: 480px;
-  padding: 12px;
-  background-color: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.12);
-  border-radius: 4px;
-}
+       display: flex;
+      flex-direction: column;
+      max-width: 480px;
+      padding: 12px;
+      background-color: #fff;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      border-radius: 4px;
+    }
 
-.feedback-form label {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 16px;
-}
+    .feedback-form label {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 16px;
+    }
 
-.feedback-form button {
-  padding: 8px 12px;
-  font: inherit;
-  cursor: pointer;
-}
+    .feedback-form button {
+      padding: 8px 12px;
+      font: inherit;
+      cursor: pointer;
+    }
 
-input,
-textarea {
-  padding: 8px;
-  font: inherit;
-}
+    input,
+    textarea {
+      padding: 8px;
+      font: inherit;
+    }
 
-textarea {
-  resize: none; 
-}
-*/
+    textarea {
+      resize: none;
+    }
+    */
     /* .alert {
-      transform: translate(-150%);
-    }
-    .succes {
-      background-color: green;
-      color: white;
-      margin-right: 20px;
-      padding: 20px;
-    }
+          transform: translate(-150%);
+        }
+        .succes {
+          background-color: green;
+          color: white;
+          margin-right: 20px;
+          padding: 20px;
+        }
 
-    .is-visible {
-      position: absolute;
-      right: 0;
-      bottom: 0;
-    } */
+        .is-visible {
+          position: absolute;
+          right: 0;
+          bottom: 0;
+        } */
 
     /* RaceTrack */
     /* .js-results-table th,
-    tbody td {
+        tbody td {
+          border: 1px solid black;
+          padding: 5px;
+        } */
+    .js-container {
+      display: flex;
+    }
+    .item {
       border: 1px solid black;
-      padding: 5px;
-    } */
+      width: 100px;
+      height: 100px;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      display: flex;
+      font-size: 70px;
+    }
   </style>
   <body>
     <!-- <form class="feedback-form js-feedback-form" autocomplete="off">
@@ -166,6 +179,15 @@ textarea {
       <span class="js-text"></span>
     </div> -->
     <!--! Продам Гараж -->
+
+    <!--! ИГРОВОЙ АВТОМАТ -->
+    <button class="js-start">Start</button>
+    <div class="js-container">
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+    </div>
+    <!--! ИГРОВОЙ АВТОМАТ -->
 
     <script src="./js/index.js" type="module"></script>
   </body>

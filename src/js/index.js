@@ -584,19 +584,74 @@ import * as BSN from 'bootstrap.native';
 
 //?_____________________________________________
 
-const promise = new Promise((res, rej) => {
-  const rand = Math.random();
+// const promise = new Promise((res, rej) => {
+//   const rand = Math.random();
 
-  setTimeout(() => {
-    if (rand < 0.5) {
-      res('✅');
-    } else {
-      rej('❌');
+//   setTimeout(() => {
+//     if (rand < 0.5) {
+//       res('✅');
+//     } else {
+//       rej('❌');
+//     }
+//   }, 0);
+// });
+
+// promise
+//   .then(data => console.log(`Then block. Result: ${data}`))
+//   .catch(err => console.error(`Catch block. Result: ${err}`))
+//   .finally(() => console.log('Finally block'));
+
+//?____________________________________________
+import 'basiclightbox/dist/basicLightbox.min.css';
+import * as basicLightbox from 'basiclightbox';
+
+const refs = {
+  startBtn: document.querySelector('.js-start'),
+  container: document.querySelector('.js-container'),
+};
+
+refs.startBtn.addEventListener('click', onStart);
+
+function onStart() {
+  refs.startBtn.disabled = true;
+  // const promises = [...refs.container.children].map(() => promiseFn());
+  const promises = [...refs.container.children].map(promiseFn);
+
+  Promise.allSettled(promises).then(items => {
+    const isWinner =
+      items.every(({ status }) => status === 'fulfilled') ||
+      items.every(({ status }) => status === 'rejected');
+
+    items.forEach((item, i) => {
+      refs.container.children[i].textContent = '';
+
+      setTimeout(() => {
+        refs.container.children[i].textContent = item.value || item.reason;
+
+        if (i === items.length - 1) {
+          const instance = basicLightbox.create(
+            `<h1>${isWinner ? 'Winner' : 'Loser'}</h1>`
+          );
+
+          instance.show();
+          refs.startBtn.disabled = false;
+
+          // setTimeout(() => {
+          //   if (isWinner) alert('WINNER');
+          // }, 1000)
+        }
+      }, 1000 * (i + 1));
+    });
+  });
+}
+
+function promiseFn() {
+  return new Promise((res, rej) => {
+    const rand = Math.random();
+
+    if (rand > 0.5) {
+      res('🤑');
     }
-  }, 0);
-});
-
-promise
-  .then(data => console.log(`Then block. Result: ${data}`))
-  .catch(err => console.error(`Catch block. Result: ${err}`))
-  .finally(() => console.log('Finally block'));
+    rej('😈');
+  });
+}
