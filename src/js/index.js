@@ -602,56 +602,61 @@ import * as BSN from 'bootstrap.native';
 //   .finally(() => console.log('Finally block'));
 
 //?____________________________________________
-import 'basiclightbox/dist/basicLightbox.min.css';
-import * as basicLightbox from 'basiclightbox';
+//! ИГРОВОЙ АВТОМАТ
 
-const refs = {
-  startBtn: document.querySelector('.js-start'),
-  container: document.querySelector('.js-container'),
-};
+// import 'basiclightbox/dist/basicLightbox.min.css';
+// import * as basicLightbox from 'basiclightbox';
 
-refs.startBtn.addEventListener('click', onStart);
+// const refs = {
+//   startBtn: document.querySelector('.js-start'),
+//   container: document.querySelector('.js-container'),
+// };
 
-function onStart() {
-  refs.startBtn.disabled = true;
-  // const promises = [...refs.container.children].map(() => promiseFn());
-  const promises = [...refs.container.children].map(promiseFn);
+// refs.startBtn.addEventListener('click', onStart);
 
-  Promise.allSettled(promises).then(items => {
-    const isWinner =
-      items.every(({ status }) => status === 'fulfilled') ||
-      items.every(({ status }) => status === 'rejected');
+// function onStart() {
+//   refs.startBtn.disabled = true;
+//   // const promises = [...refs.container.children].map(() => promiseFn());
+//   const promises = [...refs.container.children].map(promiseFn);
 
-    items.forEach((item, i) => {
-      refs.container.children[i].textContent = '';
+//   Promise.allSettled(promises).then(items => {
+//     const isWinner =
+//       items.every(({ status }) => status === 'fulfilled') ||
+//       items.every(({ status }) => status === 'rejected');
 
-      setTimeout(() => {
-        refs.container.children[i].textContent = item.value || item.reason;
+//     items.forEach((item, i) => {
+//       refs.container.children[i].textContent = '';
 
-        if (i === items.length - 1) {
-          const instance = basicLightbox.create(
-            `<h1>${isWinner ? 'Winner' : 'Loser'}</h1>`
-          );
+//       setTimeout(() => {
+//         refs.container.children[i].textContent = item.value || item.reason;
 
-          instance.show();
-          refs.startBtn.disabled = false;
+//         if (i === items.length - 1) {
+//           const instance = basicLightbox.create(
+//             `<h1>${isWinner ? 'Winner' : 'Loser'}</h1>`
+//           );
 
-          // setTimeout(() => {
-          //   if (isWinner) alert('WINNER');
-          // }, 1000)
-        }
-      }, 1000 * (i + 1));
-    });
-  });
-}
+//           instance.show();
+//           refs.startBtn.disabled = false;
 
-function promiseFn() {
-  return new Promise((res, rej) => {
-    const rand = Math.random();
+//           // setTimeout(() => {
+//           //   if (isWinner) alert('WINNER');
+//           // }, 1000)
+//         }
+//       }, 1000 * (i + 1));
+//     });
+//   });
+// }
 
-    if (rand > 0.5) {
-      res('🤑');
-    }
-    rej('😈');
-  });
-}
+// function promiseFn() {
+//   return new Promise((res, rej) => {
+//     const rand = Math.random();
+
+//     if (rand > 0.5) {
+//       res('🤑');
+//     }
+//     rej('😈');
+//   });
+// }
+
+//?____________________________________________
+
