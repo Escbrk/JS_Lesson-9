@@ -660,3 +660,42 @@ import * as BSN from 'bootstrap.native';
 
 //?____________________________________________
 
+/*
+ *    - HTTP-Запросы в браузере
+ *      - Fetch API
+ *      - Вкладка Network
+ *      - HTTP-методы
+ *      - Заголовки
+ *      - MIME-типы
+ *      - Параметры запроса
+ *    - Документация REST API
+ *    - Обработка 404 с fetch
+ *    - Аутентификация
+ *    - Библиотеки-обертки
+ *    - https://pokeapi.co
+ */
+
+import pokemonCardTpl from '../pokemon-cards.hbs';
+
+const refs = {
+  container: document.querySelector('.js-container'),
+};
+
+fetchPokemon(2).then(renderPokemonCard).catch(err => console.error(err))
+fetchPokemon(3)
+  .then(renderPokemonCard)
+fetchPokemon(5)
+  .then(renderPokemonCard)
+  .catch(err => console.error(err))
+  .catch(err => console.error(err));
+
+function fetchPokemon(pokemonId) {
+  return fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`).then(response =>
+    response.json()
+  );
+}
+
+function renderPokemonCard(pokemon) {
+  const markup = pokemonCardTpl(pokemon);
+  refs.container.insertAdjacentHTML('beforeend', markup);
+}
