@@ -676,26 +676,43 @@ import * as BSN from 'bootstrap.native';
  */
 
 import pokemonCardTpl from '../pokemon-cards.hbs';
+import API from './api-service';
+import getRefs from './get-refs';
 
-const refs = {
-  container: document.querySelector('.js-container'),
-};
+const refs = getRefs();
 
-fetchPokemon(2).then(renderPokemonCard).catch(err => console.error(err))
-fetchPokemon(3)
-  .then(renderPokemonCard)
-fetchPokemon(5)
-  .then(renderPokemonCard)
-  .catch(err => console.error(err))
-  .catch(err => console.error(err));
+refs.searchForm.addEventListener('submit', onSearch);
 
-function fetchPokemon(pokemonId) {
-  return fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`).then(response =>
-    response.json()
-  );
+function onSearch(e) {
+  e.preventDefault();
+
+  const form = e.currentTarget;
+  const searchQuery = form.elements.query.value;
+
+  API.fetchPokemon(searchQuery)
+    .then(renderPokemonCard)
+    .catch(onFetchError)
+    .finally(() => form.reset());
 }
 
 function renderPokemonCard(pokemon) {
   const markup = pokemonCardTpl(pokemon);
-  refs.container.insertAdjacentHTML('beforeend', markup);
+  refs.container.innerHTML = markup;
 }
+
+function onFetchError(error) {
+  alert('Ups, something went wrog(');
+}
+
+//!===========================
+const URL = 'https://newsapi.org/v2/everything?q=cars';
+const options = {
+  headers: {
+    Authorization: '4330ebfabc654a6992c2aa792f3173a3',
+  },
+};
+fetch(URL, options)
+  .then(r => r.json())
+  .then(console.log);
+
+// 4330ebfabc654a6992c2aa792f3173a3
