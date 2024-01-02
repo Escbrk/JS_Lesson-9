@@ -718,7 +718,27 @@ import * as BSN from 'bootstrap.native';
 // 4330ebfabc654a6992c2aa792f3173a3
 
 // !===========================
+import NewsApiService from './news-service';
 
-fetch('https://pokeapi.co/api/v2/pokemon/ditto')
-  .then(r => r.json())
-  .then(console.log);
+const newsApiService = new NewsApiService();
+
+const refs = {
+  searchForm: document.querySelector('.js-search-form'),
+  container: document.querySelector('.js-articles-container'),
+  loadMore: document.querySelector('[data-action="load-more"]'),
+};
+
+refs.searchForm.addEventListener('submit', onSearch);
+refs.loadMore.addEventListener('click', onLoadMore);
+
+function onSearch(e) {
+  e.preventDefault();
+
+  newsApiService.query = e.currentTarget.elements.query.value;
+  newsApiService.resetPage();
+  newsApiService.fetchArticles(searchQuery);
+}
+
+function onLoadMore() {
+  newsApiService.fetchArticles(searchQuery);
+}
