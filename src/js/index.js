@@ -718,6 +718,7 @@ import * as BSN from 'bootstrap.native';
 // 4330ebfabc654a6992c2aa792f3173a3
 
 // !===========================
+//! Pagination
 import NewsApiService from './news-service';
 import articlesTpl from '../templates/articles.hbs';
 import LoadMore from './load-more-btn';
@@ -765,5 +766,6 @@ function fetchArticles() {
     loadMoreBtn.enable();
   });
 }
+//! Pagination
 
 // !===========================
