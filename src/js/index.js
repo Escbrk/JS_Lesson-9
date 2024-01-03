@@ -750,7 +750,6 @@ function onSearch(e) {
   fetchArticles();
 }
 
-
 function appendArticlesMarkup(articles) {
   refs.container.insertAdjacentHTML('beforeend', articlesTpl(articles));
 }
