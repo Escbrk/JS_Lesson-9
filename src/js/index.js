@@ -719,53 +719,55 @@ import * as BSN from 'bootstrap.native';
 
 // !===========================
 //! Pagination
-import NewsApiService from './news-service';
-import articlesTpl from '../templates/articles.hbs';
-import LoadMore from './load-more-btn';
+// import NewsApiService from './news-service';
+// import articlesTpl from '../templates/articles.hbs';
+// import LoadMore from './load-more-btn';
 
-const newsApiService = new NewsApiService();
-const loadMoreBtn = new LoadMore({
-  selector: '[data-action="load-more"]',
-  hidden: true,
-});
+// const newsApiService = new NewsApiService();
+// const loadMoreBtn = new LoadMore({
+//   selector: '[data-action="load-more"]',
+//   hidden: true,
+// });
 
-const refs = {
-  searchForm: document.querySelector('.js-search-form'),
-  container: document.querySelector('.js-articles-container'),
-};
+// const refs = {
+//   searchForm: document.querySelector('.js-search-form'),
+//   container: document.querySelector('.js-articles-container'),
+// };
 
-refs.searchForm.addEventListener('submit', onSearch);
-loadMoreBtn.refs.button.addEventListener('click', fetchArticles);
+// refs.searchForm.addEventListener('submit', onSearch);
+// loadMoreBtn.refs.button.addEventListener('click', fetchArticles);
 
-function onSearch(e) {
-  e.preventDefault();
+// function onSearch(e) {
+//   e.preventDefault();
 
-  newsApiService.query = e.currentTarget.elements.query.value;
+//   newsApiService.query = e.currentTarget.elements.query.value;
 
-  if (newsApiService.query === '') {
-    return alert('Введи что-то нормальное!!!');
-  }
-  clearArticlesContainer();
-  newsApiService.resetPage();
-  loadMoreBtn.show();
-  fetchArticles();
-}
+//   if (newsApiService.query === '') {
+//     return alert('Введи что-то нормальное!!!');
+//   }
+//   clearArticlesContainer();
+//   newsApiService.resetPage();
+//   loadMoreBtn.show();
+//   fetchArticles();
+// }
 
-function appendArticlesMarkup(articles) {
-  refs.container.insertAdjacentHTML('beforeend', articlesTpl(articles));
-}
+// function appendArticlesMarkup(articles) {
+//   refs.container.insertAdjacentHTML('beforeend', articlesTpl(articles));
+// }
 
-function clearArticlesContainer() {
-  refs.container.innerHTML = '';
-}
+// function clearArticlesContainer() {
+//   refs.container.innerHTML = '';
+// }
 
-function fetchArticles() {
-  loadMoreBtn.disable();
-  newsApiService.fetchArticles().then(articles => {
-    appendArticlesMarkup(articles);
-    loadMoreBtn.enable();
-  });
-}
+// function fetchArticles() {
+//   loadMoreBtn.disable();
+//   newsApiService.fetchArticles().then(articles => {
+//     appendArticlesMarkup(articles);
+//     loadMoreBtn.enable();
+//   });
+// }
 //! Pagination
 
 // !===========================
+//* Симак
+
