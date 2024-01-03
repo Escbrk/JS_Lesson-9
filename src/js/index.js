@@ -765,3 +765,5 @@ function fetchArticles() {
     loadMoreBtn.enable();
   });
 }
+
+// !===========================
