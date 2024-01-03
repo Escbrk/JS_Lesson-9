@@ -771,9 +771,15 @@ import * as BSN from 'bootstrap.native';
 // !===========================
 //* Симак
 
-const fch = fetch('https://rickandmortyapi.com/api/character/1');
+const URL = 'https://rickandmortyapi.com/api/character';
 
-fch
-  .then(data => data.json())
-  .then(response => console.log(response))
+fetch(URL)
+  .then(response => {
+    if (!response.ok) {
+      //*or "!status.ok"
+      throw new Error('404 - Not Found!');
+    }
+    return response.json();
+  })
+  .then(console.log)
   .catch(console.error);
