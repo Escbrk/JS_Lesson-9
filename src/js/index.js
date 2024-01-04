@@ -781,5 +781,5 @@ fetch(URL)
     }
     return response.json();
   })
-  .then(console.log)
+  .then(({ results }) => console.log(results))
   .catch(console.error);
