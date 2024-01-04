@@ -67,7 +67,10 @@
           border: 1px solid black;
           padding: 5px;
         } */
-    .js-container {
+
+    /* ++++++++++++++++Pagination++++++++++++++++ */
+
+    /* .js-container {
       display: flex;
     }
     .item {
@@ -95,7 +98,7 @@
     }
     .is-hidden {
       display: none;
-    }
+    } */
   </style>
   <body>
     <!-- <form class="feedback-form js-feedback-form" autocomplete="off">
@@ -252,7 +255,31 @@
     <!--! Pagination -->
     <!--!================-->
 
-    
+    <!--!================-->
+    <!--! Симак - Forecast -->
+
+    <form action="submit" class="search-form js-search-form">
+      <div class="form-group">
+        <label for="city" class="label">Введите название города:</label>
+        <input type="text" name="city" class="search-input" required />
+      </div>
+      <div class="form-group">
+        <label for="days" class="label">Выберите количество дней:</label>
+        <div class="input-group">
+          <select name="days" class="days-select">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+          </select>
+          <button class="search-btn">Поиск</button>
+        </div>
+      </div>
+    </form>
+
+    <h1 class="js-city-name"></h1>
+    <ul class="js-list weather-cards"></ul>
+
+    <!--!================-->
 
     <script src="./js/index.js" type="module"></script>
   </body>

@@ -1,0 +1,8 @@
+{{#each forecastday}}
+    <li>
+      <img src="{{day.condition.icon}}" alt="{{day.condition.text}}" />
+      <h2>{{date}}</h2>
+      <p>{{day.condition.text}}</p>
+      <p>{{day.avgtemp_c}}</p>
+    </li>
+{{/each}}
