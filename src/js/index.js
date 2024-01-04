@@ -785,60 +785,61 @@ import * as BSN from 'bootstrap.native';
 //   .catch(console.error);
 
 // !===========================
-import forecastTpl from '../templates/forecast.hbs';
-import '../../node_modules/izitoast/dist/css/iziToast.min.css'
-import iziToast from 'izitoast';
+// import forecastTpl from '../templates/forecast.hbs';
+// import '../../node_modules/izitoast/dist/css/iziToast.min.css'
+// import iziToast from 'izitoast';
 
-const refs = {
-  form: document.querySelector('.js-search-form'),
-  list: document.querySelector('.js-list'),
-  cityName: document.querySelector('.js-city-name'),
-};
+// const refs = {
+//   form: document.querySelector('.js-search-form'),
+//   list: document.querySelector('.js-list'),
+//   cityName: document.querySelector('.js-city-name'),
+// };
 
-refs.form.addEventListener('submit', onSubmit);
+// refs.form.addEventListener('submit', onSubmit);
 
-function onSubmit(e) {
-  e.preventDefault();
+// function onSubmit(e) {
+//   e.preventDefault();
 
-  const form = e.currentTarget;
-  const { days, city } = form.elements;
-  fetchForecast(city.value, days.value)
-    .then(({ forecast, location: { name, country } }) => {
-      refs.cityName.textContent = `${name}, ${country}`;
-      refs.list.innerHTML = forecastTpl(forecast);
-    })
-    .catch(err => {
-      refs.cityName.textContent = '';
-      refs.list.innerHTML = '';
-      iziToast.show({
-        message: `${err}`,
-        color: 'red',
-        position: 'topCenter'
-      });
-    })
-    .finally(() => form.reset());
-}
+//   const form = e.currentTarget;
+//   const { days, city } = form.elements;
+//   fetchForecast(city.value, days.value)
+//     .then(({ forecast, location: { name, country } }) => {
+//       refs.cityName.textContent = `${name}, ${country}`;
+//       refs.list.innerHTML = forecastTpl(forecast);
+//     })
+//     .catch(err => {
+//       refs.cityName.textContent = '';
+//       refs.list.innerHTML = '';
+//       iziToast.show({
+//         message: `${err}`,
+//         color: 'red',
+//         position: 'topCenter'
+//       });
+//     })
+//     .finally(() => form.reset());
+// }
 
-function fetchForecast(city, days) {
-  const BASE_URL = 'http://api.weatherapi.com/v1';
-  const ENDPOINT = 'forecast.json';
+// function fetchForecast(city, days) {
+//   const BASE_URL = 'http://api.weatherapi.com/v1';
+//   const ENDPOINT = 'forecast.json';
 
-  const params = new URLSearchParams({
-    key: '66f9e81543404d02beb160521230808',
-    q: city,
-    days,
-    lang: 'ru',
-  });
+//   const params = new URLSearchParams({
+//     key: '66f9e81543404d02beb160521230808',
+//     q: city,
+//     days,
+//     lang: 'ru',
+//   });
 
-  return fetch(`${BASE_URL}/${ENDPOINT}?${params}`).then(response => {
-    if (!response.ok) {
-      throw new Error('404 - Not Found!');
-    }
+//   return fetch(`${BASE_URL}/${ENDPOINT}?${params}`).then(response => {
+//     if (!response.ok) {
+//       throw new Error('404 - Not Found!');
+//     }
 
-    return response.json();
-  });
-}
+//     return response.json();
+//   });
+// }
 
+//* Альтернативный вариант
 // function createMarkup(arr) {
 //   return arr
 //     .map(
@@ -859,3 +860,6 @@ function fetchForecast(city, days) {
 //     )
 //     .join('');
 // }
+
+// !===========================
+
