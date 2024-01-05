@@ -863,3 +863,81 @@ import * as BSN from 'bootstrap.native';
 
 // !===========================
 
+// https://developer.themoviedb.org/reference/trending-movies
+
+// 92a9a9e3708a3e9451b7037d5906879a
+// d0f00e3970f1028763a1388502d0f412
+
+// https://developer.themoviedb.org/docs/image-basics
+
+// https://api.themoviedb.org/3/trending/movie/week?api_key=d0f00e3970f1028763a1388502d0f412&page=500
+
+// import MovieApiServise from './movie-service';
+// const movieApiService = new MovieApiServise()
+
+import axios from 'axios';
+import moviesTpl from '../templates/movies.hbs';
+
+const refs = {
+  movieList: document.querySelector('.js-movie-list'),
+  //   btnContainer: document.querySelector('.button-container'),
+  loadMore: document.querySelector('.js-load-more'),
+};
+
+let pageCounter = 1;
+
+const classes = {
+  loadMoreHidden: 'load-more-hidden',
+};
+
+function fetchMovies() {
+  const BASE_URL = 'https://api.themoviedb.org/3';
+  const ENDPOINT = 'trending/movie/week';
+
+  const params = new URLSearchParams({
+    api_key: 'd0f00e3970f1028763a1388502d0f412',
+    page: pageCounter,
+  });
+
+  //   return fetch(`${BASE_URL}/${ENDPOINT}?${params}`).then(response => {
+  //     if (!response.ok) {
+  //       throw new Error(response.statusText);
+  //     }
+
+  //     return response.json();
+  //   });
+
+  return axios
+    .get(`${BASE_URL}/${ENDPOINT}?${params}`)
+    .then(({ data }) => data);
+}
+
+function onClick() {
+  pageCounter += 1;
+  refs.loadMore.disabled = true;
+
+  fetchMovies()
+    .then(data => {
+      refs.movieList.insertAdjacentHTML('beforeend', moviesTpl(data));
+      refs.loadMore.disabled = false;
+
+      if (data.page >= 500) {
+        refs.loadMore.classList.add(classes.loadMoreHidden);
+        refs.loadMore.removeEventListener('click', onClick);
+
+        return;
+      }
+    })
+    .catch(console.log);
+}
+
+fetchMovies()
+  .then(data => {
+    refs.movieList.innerHTML = moviesTpl(data);
+
+    if (data.page < data.total_pages && data.page < 500) {
+      refs.loadMore.classList.remove(classes.loadMoreHidden);
+      refs.loadMore.addEventListener('click', onClick);
+    }
+  })
+  .catch(console.log);
