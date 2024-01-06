@@ -875,69 +875,119 @@ import * as BSN from 'bootstrap.native';
 // import MovieApiServise from './movie-service';
 // const movieApiService = new MovieApiServise()
 
-import axios from 'axios';
-import moviesTpl from '../templates/movies.hbs';
+// import axios from 'axios';
+// import moviesTpl from '../templates/movies.hbs';
 
-const refs = {
-  movieList: document.querySelector('.js-movie-list'),
-  //   btnContainer: document.querySelector('.button-container'),
-  loadMore: document.querySelector('.js-load-more'),
-};
+// const refs = {
+//   movieList: document.querySelector('.js-movie-list'),
+//   //   btnContainer: document.querySelector('.button-container'),
+//   loadMore: document.querySelector('.js-load-more'),
+// };
 
-let pageCounter = 1;
+// let pageCounter = 1;
 
-const classes = {
-  loadMoreHidden: 'load-more-hidden',
-};
+// const classes = {
+//   loadMoreHidden: 'load-more-hidden',
+// };
 
-function fetchMovies() {
-  const BASE_URL = 'https://api.themoviedb.org/3';
-  const ENDPOINT = 'trending/movie/week';
+// function fetchMovies() {
+//   const BASE_URL = 'https://api.themoviedb.org/3';
+//   const ENDPOINT = 'trending/movie/week';
 
-  const params = new URLSearchParams({
-    api_key: 'd0f00e3970f1028763a1388502d0f412',
-    page: pageCounter,
-  });
+//   const params = new URLSearchParams({
+//     api_key: 'd0f00e3970f1028763a1388502d0f412',
+//     page: pageCounter,
+//   });
 
-  //   return fetch(`${BASE_URL}/${ENDPOINT}?${params}`).then(response => {
-  //     if (!response.ok) {
-  //       throw new Error(response.statusText);
-  //     }
+//   //   return fetch(`${BASE_URL}/${ENDPOINT}?${params}`).then(response => {
+//   //     if (!response.ok) {
+//   //       throw new Error(response.statusText);
+//   //     }
 
-  //     return response.json();
-  //   });
+//   //     return response.json();
+//   //   });
 
-  return axios
-    .get(`${BASE_URL}/${ENDPOINT}?${params}`)
-    .then(({ data }) => data);
-}
+//   return axios
+//     .get(`${BASE_URL}/${ENDPOINT}?${params}`)
+//     .then(({ data }) => data);
+// }
 
-function onClick() {
-  pageCounter += 1;
-  refs.loadMore.disabled = true;
+// function onClick() {
+//   pageCounter += 1;
+//   refs.loadMore.disabled = true;
 
-  fetchMovies()
-    .then(data => {
-      refs.movieList.insertAdjacentHTML('beforeend', moviesTpl(data));
-      refs.loadMore.disabled = false;
+//   fetchMovies()
+//     .then(data => {
+//       refs.movieList.insertAdjacentHTML('beforeend', moviesTpl(data));
+//       refs.loadMore.disabled = false;
 
-      if (data.page >= 500) {
-        refs.loadMore.classList.add(classes.loadMoreHidden);
-        refs.loadMore.removeEventListener('click', onClick);
+//       if (data.page >= 500) {
+//         refs.loadMore.classList.add(classes.loadMoreHidden);
+//         refs.loadMore.removeEventListener('click', onClick);
 
-        return;
-      }
-    })
-    .catch(console.log);
-}
+//         return;
+//       }
+//     })
+//     .catch(console.log);
+// }
 
-fetchMovies()
-  .then(data => {
-    refs.movieList.innerHTML = moviesTpl(data);
+// fetchMovies()
+//   .then(data => {
+//     refs.movieList.innerHTML = moviesTpl(data);
 
-    if (data.page < data.total_pages && data.page < 500) {
-      refs.loadMore.classList.remove(classes.loadMoreHidden);
-      refs.loadMore.addEventListener('click', onClick);
-    }
-  })
-  .catch(console.log);
+//     if (data.page < data.total_pages && data.page < 500) {
+//       refs.loadMore.classList.remove(classes.loadMoreHidden);
+//       refs.loadMore.addEventListener('click', onClick);
+//     }
+//   })
+//   .catch(console.log);
+
+// !===========================
+//! BACKEND
+//* GET
+
+const BASE_URL = 'http://localhost:3000';
+// function fetchBooks() {
+//   return fetch(`${BASE_URL}/books`).then(res => res.json());
+// }
+
+// function fetchBookById(id) {
+//   return fetch(`${BASE_URL}/books/${id}`).then(res => res.json());
+// }
+
+// fetchBooks();
+// fetchBookById(2);
+
+//* POST
+
+// function addNewBook(book) {
+//   const options = {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify(book),
+//   };
+
+//   return fetch(`${BASE_URL}/books`, options)
+//     .then(res => res.json())
+//     .then(console.log);
+// }
+
+
+// addNewBook({
+//   title: 'Test book CSS',
+//   author: 'Me',
+//   genres: ['CSS'],
+//   rating: 9,
+// });
+
+// addNewBook({
+//   title: 'Test book HTML',
+//   author: 'Me',
+//   genres: ['HTML'],
+//   rating: 7,
+// });
+
+//* PUT / PATCH
+
