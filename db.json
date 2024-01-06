@@ -57,21 +57,12 @@
     },
     {
       "title": "Test book",
-      "author": "Me",
+      "author": "Mango",
       "genres": [
         "JS"
       ],
-      "rating": 10,
+      "rating": 2,
       "id": 7
-    },
-    {
-      "title": "Test book CSS",
-      "author": "Me",
-      "genres": [
-        "CSS"
-      ],
-      "rating": 9,
-      "id": 8
     },
     {
       "title": "Test book HTML",
@@ -81,24 +72,6 @@
       ],
       "rating": 7,
       "id": 9
-    },
-    {
-      "title": "Test book CSS",
-      "author": "Me",
-      "genres": [
-        "CSS"
-      ],
-      "rating": 9,
-      "id": 10
-    },
-    {
-      "title": "Test book HTML",
-      "author": "Me",
-      "genres": [
-        "HTML"
-      ],
-      "rating": 7,
-      "id": 11
     }
   ]
 }

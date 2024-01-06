@@ -974,7 +974,6 @@ const BASE_URL = 'http://localhost:3000';
 //     .then(console.log);
 // }
 
-
 // addNewBook({
 //   title: 'Test book CSS',
 //   author: 'Me',
@@ -990,4 +989,38 @@ const BASE_URL = 'http://localhost:3000';
 // });
 
 //* PUT / PATCH
+
+// function updateBookById(update, id) {
+//   const options = {
+//     method: 'PATCH',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify(update),
+//   };
+
+//   return fetch(`${BASE_URL}/books/${id}`, options).then(res => res.json());
+// }
+
+// updateBookById({ title: 'The BIG new book NODE.JS' }, 10);
+
+// updateBookById({ rating: 1 }, 11);
+
+// updateBookById({ rating: 2, author: 'Mango' }, 7);
+
+//* DELETE
+
+// function removeBook(id) {
+//   const url = `${BASE_URL}/books/${id}`;
+//   const options = {
+//     method: 'DELETE',
+//   };
+
+//   return fetch(url, options).then(res => res.json());
+// }
+
+// removeBook(10);
+// removeBook(11);
+
+// !===========================
 
