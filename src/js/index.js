@@ -946,7 +946,7 @@ import * as BSN from 'bootstrap.native';
 //! BACKEND
 //* GET
 
-const BASE_URL = 'http://localhost:3000';
+// const BASE_URL = 'http://localhost:3000';
 // function fetchBooks() {
 //   return fetch(`${BASE_URL}/books`).then(res => res.json());
 // }
@@ -1038,12 +1038,154 @@ const BASE_URL = 'http://localhost:3000';
 
 // !===========================
 
-const validJSON = '{ "name": "mango", "age": 3 }';
-const invalidJSON = '{ backend вернул вот такое чудо }';
+// const validJSON = '{ "name": "mango", "age": 3 }';
+// const invalidJSON = '{ backend вернул вот такое чудо }';
 
-try {
-    console.log(JSON.parse(validJSON))
-    console.log(JSON.parse(invalidJSON))
-} catch (error) {
-    
+// try {
+//   console.log(1);
+//   // console.log(JSON.parse(validJSON))
+//   console.log(JSON.parse(invalidJSON));
+//   console.log(2);
+// } catch (error) {
+//   console.log(error);
+//   if (error.name === 'SyntaxError') {
+//     console.log('Ошибка парса JSON');
+//   }
+// }
+
+// console.log('после error')
+
+// !===========================
+//* ASYNC / AWAIT
+
+// async function fn() {
+//   //
+// }
+
+// const fn = async function () {
+//   //
+// };
+
+// const arr = async () => {
+//   //
+// };
+
+// const x = {
+//   async getName() {
+//     //
+//   },
+// };
+
+// class X = {
+//     async getName() {
+//         //
+//     }
+// }
+
+// ?===========================
+
+// function getFruit(name) {
+//   const fruits = {
+//     strawberry: '🍓',
+//     kiwi: '🥝',
+//     apple: '🍎',
+//   };
+
+//   return new Promise((resolve, reject) =>
+//     setTimeout(() => resolve(fruits[name]), 500)
+//   );
+// }
+
+// async function aMakeSmoothie() {
+//   try {
+//     console.time('aMakeSmoothie');
+//     const apple = getFruit('apple');
+//     const kiwi = getFruit('kiwi');
+
+//     const fruits = await Promise.all([apple, kiwi]);
+//     console.log(fruits);
+//     console.timeEnd('aMakeSmoothie');
+
+//     return fruits;
+//   } catch (error) {
+//     console.error(error);
+//   }
+// }
+
+// function makeSmoothie() {
+//     getFruit('apple').then(apple => {
+//         console.log(apple)
+
+//         getFruit('kiwi').then(console.log)
+//     });
+
+// }
+
+// aMakeSmoothie().then(console.log)
+
+// !===========================
+
+const BASE_URL = 'http://localhost:3000';
+
+async function fetchBooks() {
+  const response = await fetch(`${BASE_URL}/books`);
+  return await response.json();
+}
+
+async function fetchBookById(id) {
+  const response = await fetch(`${BASE_URL}/books/${id}`);
+  return await response.json();
+}
+
+async function addNewBook(book) {
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(book),
+  };
+
+  const response = await fetch(`${BASE_URL}/books`, options);
+  return await response.json();
+}
+
+async function addBookAndUpdateUI() {
+  try {
+    const book = await addNewBook({});
+    console.log(book);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function removeBook(id) {
+  const url = `${BASE_URL}/books/${id}`;
+  const options = {
+    method: 'DELETE',
+  };
+
+  return await fetch(url, options);
+}
+
+async function updateBookById(update, id) {
+  const options = {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(update),
+  };
+
+  const response = await fetch(`${BASE_URL}/books/${id}`, options);
+  return await response.json();
+}
+
+async function addAndRenderBook() {
+  try {
+    const book = await addNewBook({});
+    console.log(book);
+  } catch (error) {
+    console.log(error);
+  }
 }
