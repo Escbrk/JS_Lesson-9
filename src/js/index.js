@@ -1285,17 +1285,20 @@ const updatedPost = {
 
 //  ******************** DELETE - DELETE ********************
 
-fetch(`${URL}/${1}`, {
-  method: 'DELETE',
-})
-  .then(res => {
-    if (!res.ok) {
-      throw new Error(res.statusText);
-    }
+// fetch(`${URL}/${1}`, {
+//   method: 'DELETE',
+// })
+//   .then(res => {
+//     if (!res.ok) {
+//       throw new Error(res.statusText);
+//     }
 
-    return res.json();
-  })
-  .then(console.log)
-  .catch(console.log);
+//     return res.json();
+//   })
+//   .then(console.log)
+//   .catch(console.log);
 
-axios.delete(`${URL}/${1}`, updatedPost).then(console.log).catch(console.log);
+// axios.delete(`${URL}/${1}`, updatedPost).then(console.log).catch(console.log);
+
+// !===========================
+
