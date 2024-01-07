@@ -1023,4 +1023,27 @@ const BASE_URL = 'http://localhost:3000';
 // removeBook(11);
 
 // !===========================
+//* try...catch
 
+// try {
+//   console.log('Внутри try до myVar');
+
+//   myVar;
+
+//   console.log('Внутри try после myVar');
+// } catch {
+//   console.error(error);
+// }
+// console.log('После try...catch');
+
+// !===========================
+
+const validJSON = '{ "name": "mango", "age": 3 }';
+const invalidJSON = '{ backend вернул вот такое чудо }';
+
+try {
+    console.log(JSON.parse(validJSON))
+    console.log(JSON.parse(invalidJSON))
+} catch (error) {
+    
+}
