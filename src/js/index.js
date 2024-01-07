@@ -179,6 +179,7 @@
 // }
 
 //?_____________________________________________
+import axios from 'axios';
 import * as BSN from 'bootstrap.native';
 
 // const PROMPT_DELAY = 1000;
@@ -1125,67 +1126,176 @@ import * as BSN from 'bootstrap.native';
 
 // !===========================
 
-const BASE_URL = 'http://localhost:3000';
+// const BASE_URL = 'http://localhost:3000';
 
-async function fetchBooks() {
-  const response = await fetch(`${BASE_URL}/books`);
-  return await response.json();
-}
+// async function fetchBooks() {
+//   const response = await fetch(`${BASE_URL}/books`);
+//   return await response.json();
+// }
 
-async function fetchBookById(id) {
-  const response = await fetch(`${BASE_URL}/books/${id}`);
-  return await response.json();
-}
+// async function fetchBookById(id) {
+//   const response = await fetch(`${BASE_URL}/books/${id}`);
+//   return await response.json();
+// }
 
-async function addNewBook(book) {
-  const options = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(book),
-  };
+// async function addNewBook(book) {
+//   const options = {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify(book),
+//   };
 
-  const response = await fetch(`${BASE_URL}/books`, options);
-  return await response.json();
-}
+//   const response = await fetch(`${BASE_URL}/books`, options);
+//   return await response.json();
+// }
 
-async function addBookAndUpdateUI() {
-  try {
-    const book = await addNewBook({});
-    console.log(book);
-  } catch (error) {
-    console.log(error);
-  }
-}
+// async function addBookAndUpdateUI() {
+//   try {
+//     const book = await addNewBook({});
+//     console.log(book);
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
 
-async function removeBook(id) {
-  const url = `${BASE_URL}/books/${id}`;
-  const options = {
-    method: 'DELETE',
-  };
+// async function removeBook(id) {
+//   const url = `${BASE_URL}/books/${id}`;
+//   const options = {
+//     method: 'DELETE',
+//   };
 
-  return await fetch(url, options);
-}
+//   return await fetch(url, options);
+// }
 
-async function updateBookById(update, id) {
-  const options = {
-    method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(update),
-  };
+// async function updateBookById(update, id) {
+//   const options = {
+//     method: 'PATCH',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify(update),
+//   };
 
-  const response = await fetch(`${BASE_URL}/books/${id}`, options);
-  return await response.json();
-}
+//   const response = await fetch(`${BASE_URL}/books/${id}`, options);
+//   return await response.json();
+// }
 
-async function addAndRenderBook() {
-  try {
-    const book = await addNewBook({});
-    console.log(book);
-  } catch (error) {
-    console.log(error);
-  }
-}
+// async function addAndRenderBook() {
+//   try {
+//     const book = await addNewBook({});
+//     console.log(book);
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
+
+// !===========================
+//! CRUD
+//* Симак
+
+const URL = 'https://jsonplaceholder.typicode.com/posts';
+
+//  ******************** CREATE - POST ********************
+
+const newPost = {
+  userID: 777,
+  title: 'My NEW POST',
+  body: 'qweqwe',
+};
+
+// fetch(URL, {
+//   method: 'POST',
+//   headers: {
+//     'Content-Type': 'application/json',
+//   },
+//   body: JSON.stringify([newPost, newPost2]),
+// }).then(res => {
+//     if (!res.ok) {
+//       throw new Error(res.statusText);
+//     }
+
+//     return res.json();
+//   })
+//   .then(console.log)
+//   .catch(console.log);
+
+// axios.post(URL, newPost).then(console.log).catch(console.log);
+//  ******************** READ - GET ********************
+
+// fetch(URL)
+//   .then(res => {
+//     if (!res.ok) {
+//       throw new Error(res.statusText);
+//     }
+
+//     return res.json();
+//   })
+//   .then(console.log)
+//   .catch(console.log);
+
+// axios.get(URL).then(response => console.log(response.data)).catch(console.log);
+
+//  ******************** UPDATE - PATCH ********************
+
+const updatedPost = {
+  title: 'My NEW POST updated',
+};
+
+// fetch(`${URL}/${1}`, {
+//   method: 'PATCH',
+//   headers: {
+//     'Content-Type': 'application/json',
+//   },
+//   body: JSON.stringify(updatedPost),
+// })
+//   .then(res => {
+//     if (!res.ok) {
+//       throw new Error(res.statusText);
+//     }
+
+//     return res.json();
+//   })
+//   .then(console.log)
+//   .catch(console.log);
+
+// axios.patch(`${URL}/${1}`, updatedPost).then(console.log).catch(console.log);
+
+//  ******************** UPDATE - PUT ********************
+
+// fetch(`${URL}/${1}`, {
+//   method: 'PUT',
+//   headers: {
+//     'Content-Type': 'application/json',
+//   },
+//   body: JSON.stringify(updatedPost),
+// })
+//   .then(res => {
+//     if (!res.ok) {
+//       throw new Error(res.statusText);
+//     }
+
+//     return res.json();
+//   })
+//   .then(console.log)
+//   .catch(console.log);
+
+// axios.put(`${URL}/${1}`, updatedPost).then(console.log).catch(console.log);
+
+//  ******************** DELETE - DELETE ********************
+
+fetch(`${URL}/${1}`, {
+  method: 'DELETE',
+})
+  .then(res => {
+    if (!res.ok) {
+      throw new Error(res.statusText);
+    }
+
+    return res.json();
+  })
+  .then(console.log)
+  .catch(console.log);
+
+axios.delete(`${URL}/${1}`, updatedPost).then(console.log).catch(console.log);
