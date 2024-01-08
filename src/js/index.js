@@ -1301,41 +1301,42 @@ import * as BSN from 'bootstrap.native';
 // axios.delete(`${URL}/${1}`, updatedPost).then(console.log).catch(console.log);
 
 // !===========================
-import getUsers from './questions';
+// import getUsers from './questions';
 
-const form = document.querySelector('.js-question');
+// const form = document.querySelector('.js-question');
 
-form.addEventListener('submit', onSubmit);
+// form.addEventListener('submit', onSubmit);
 
-function onSubmit(e) {
-  e.preventDefault();
+// function onSubmit(e) {
+//   e.preventDefault();
 
-  const { userName, phone, email, question } = e.currentTarget.elements;
+//   const { userName, phone, email, question } = e.currentTarget.elements;
 
-  const userData = {
-    name: userName.value,
-    phone: phone.value,
-    email: email.value,
-    comment: question.value,
-  };
-  console.log(userData);
+//   const userData = {
+//     name: userName.value,
+//     phone: phone.value,
+//     email: email.value,
+//     comment: question.value,
+//   };
+//   console.log(userData);
 
-  createQuestionService(userData)
-    .then(data => alert('Thx'))
-    .catch(console.error)
-    .finally(() => form.reset());
-}
+//   createQuestionService(userData)
+//     .then(data => alert('Thx'))
+//     .catch(console.error)
+//     .finally(() => form.reset());
+// }
 
-function createQuestionService(data) {
-  const BASE_URL = ' http://localhost:3000';
-  const ENDPOINT = 'people';
+// function createQuestionService(data) {
+//   const BASE_URL = ' http://localhost:3000';
+//   const ENDPOINT = 'people';
 
-  return axios
-    .post(`${BASE_URL}/${ENDPOINT}`, data)
-    .then(data => console.log(data));
-}
+//   return axios
+//     .post(`${BASE_URL}/${ENDPOINT}`, data)
+//     .then(data => console.log(data));
+// }
 
-function deletePostById(id) {
-  return axios.delete(`http://localhost:3000/people/${id}`);
-}
+// function deletePostById(id) {
+//   return axios.delete(`http://localhost:3000/people/${id}`);
+// }
 
+// !===========================
