@@ -1195,15 +1195,15 @@ import * as BSN from 'bootstrap.native';
 //! CRUD
 //* Симак
 
-const URL = 'https://jsonplaceholder.typicode.com/posts';
+// const URL = 'https://jsonplaceholder.typicode.com/posts';
 
 //  ******************** CREATE - POST ********************
 
-const newPost = {
-  userID: 777,
-  title: 'My NEW POST',
-  body: 'qweqwe',
-};
+// const newPost = {
+//   userID: 777,
+//   title: 'My NEW POST',
+//   body: 'qweqwe',
+// };
 
 // fetch(URL, {
 //   method: 'POST',
@@ -1239,9 +1239,9 @@ const newPost = {
 
 //  ******************** UPDATE - PATCH ********************
 
-const updatedPost = {
-  title: 'My NEW POST updated',
-};
+// const updatedPost = {
+//   title: 'My NEW POST updated',
+// };
 
 // fetch(`${URL}/${1}`, {
 //   method: 'PATCH',
@@ -1301,4 +1301,41 @@ const updatedPost = {
 // axios.delete(`${URL}/${1}`, updatedPost).then(console.log).catch(console.log);
 
 // !===========================
+import getUsers from './questions';
+
+const form = document.querySelector('.js-question');
+
+form.addEventListener('submit', onSubmit);
+
+function onSubmit(e) {
+  e.preventDefault();
+
+  const { userName, phone, email, question } = e.currentTarget.elements;
+
+  const userData = {
+    name: userName.value,
+    phone: phone.value,
+    email: email.value,
+    comment: question.value,
+  };
+  console.log(userData);
+
+  createQuestionService(userData)
+    .then(data => alert('Thx'))
+    .catch(console.error)
+    .finally(() => form.reset());
+}
+
+function createQuestionService(data) {
+  const BASE_URL = ' http://localhost:3000';
+  const ENDPOINT = 'people';
+
+  return axios
+    .post(`${BASE_URL}/${ENDPOINT}`, data)
+    .then(data => console.log(data));
+}
+
+function deletePostById(id) {
+  return axios.delete(`http://localhost:3000/people/${id}`);
+}
 

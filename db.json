@@ -1,77 +1,25 @@
 {
-  "books": [
+  "people": [
     {
-      "id": 1,
-      "title": "The Last Kingdom",
-      "author": "Bernard Cornuel",
-      "genres": [
-        "Adventures"
-      ],
-      "rating": 8.38
+      "name": "Jane Doe",
+      "phone": "0505055500",
+      "email": "jane@abc.com",
+      "comment": "Test comment",
+      "id": 1
     },
     {
-      "id": 2,
-      "title": "On the beach of the calm waters",
-      "author": "Robert Shekly",
-      "genres": [
-        "Fantasy"
-      ],
-      "rating": 8.51
+      "name": "Paul",
+      "phone": "5878373382",
+      "email": "awd@c.com",
+      "comment": "How r u?",
+      "id": 4
     },
     {
-      "id": 3,
-      "title": "The Ghost Eater",
-      "author": "Howard Lawcraft",
-      "genres": [
-        "Horror",
-        "Mystic"
-      ],
-      "rating": 7.94
-    },
-    {
-      "id": 4,
-      "title": "The Unmasked Crook",
-      "author": "Franc Kafka",
-      "genres": [
-        "Classic"
-      ],
-      "rating": 6.62
-    },
-    {
-      "id": 5,
-      "title": "The Two Suns",
-      "author": "Leonid Kudriavtsev",
-      "genres": [
-        "Fantasy"
-      ],
-      "rating": 6.36
-    },
-    {
-      "id": 6,
-      "title": "The Dream of The Funny Guy",
-      "author": "Fedor Dostoevsky",
-      "genres": [
-        "Fantasy"
-      ],
-      "rating": 6.36
-    },
-    {
-      "title": "Test book",
-      "author": "Mango",
-      "genres": [
-        "JS"
-      ],
-      "rating": 2,
-      "id": 7
-    },
-    {
-      "title": "Test book HTML",
-      "author": "Me",
-      "genres": [
-        "HTML"
-      ],
-      "rating": 7,
-      "id": 9
+      "name": "Mango",
+      "phone": "911",
+      "email": "mango@mail.com",
+      "comment": "Help me pls",
+      "id": 5
     }
   ]
 }
