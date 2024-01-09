@@ -1340,3 +1340,241 @@ import * as BSN from 'bootstrap.native';
 // }
 
 // !===========================
+//* FETCH
+
+// function serviceCountry(name) {
+//   return fetch(`https://restcountries.com/v3.1/name/${name}`).then(response => {
+//     if (!response.ok) {
+//       throw new Error(response.statusText);
+//     }
+//     return response.json();
+//   });
+// }
+
+// serviceCountry('Canada').then(console.log).catch(console.log);
+
+// ?===========================
+//* ASYNC / AWAIT
+
+// async function serviceCountry(name) {
+//   const response = await fetch(`https://restcountries.com/v3.1/name/${name}`);
+
+//   if (!response.ok) {
+//     throw new Error(response.statusText);
+//   }
+
+//   return await response.json();
+// }
+
+// serviceCountry('Canada').then(console.log).catch(console.log);
+
+// ?===========================
+//* AXIOS - ASYNC / AWAIT
+
+// async function serviceCountry(name) {
+//     const { data } = await axios.get(`https://restcountries.com/v3.1/name/${name}`);
+
+//     return data
+// }
+// serviceCountry('Canada').then(console.log).catch(console.log);
+
+// ?===========================
+// ****** Arrow function ****** \\
+
+// const serviceCountry = async name => {
+//   const { data } = await axios.get(
+//     `https://restcountries.com/v3.1/name/${name}`
+//   );
+
+//   return data;
+// };
+
+// serviceCountry('Canada').then(console.log).catch(console.log);
+
+// ?===========================
+// ****** Function expression ****** \\
+
+// const serviceCountry = async function (name) {
+//   const { data } = await axios.get(
+//     `https://restcountries.com/v3.1/name/${name}`
+//   );
+
+//   return data;
+// };
+
+// serviceCountry('Canada').then(console.log).catch(console.log);
+
+// ?===========================
+// ****** Object method ****** \\
+
+// const obj = {
+//   counryName: 'Canada',
+//   async serviceCountry() {
+//     const { data } = await axios.get(
+//       `https://restcountries.com/v3.1/name/${this.counryName}`
+//     );
+
+//     return data;
+//   },
+// };
+
+// ****** Обработка ошибок с помощью then/catch ******
+
+// async function serviceCountry(name) {
+//   const data = await axios.get(`https://restcountries.com/v3.1/name/${name}`);
+
+//   return data;
+// }
+
+// serviceCountry('Canada').then(console.log).catch(console.error);
+
+// ****** Обработка ошибок с помощью try/catch ******
+
+//! FETCH
+// async function serviceCountry(name) {
+//   try {
+//     const response = await fetch(`https://restcountries.com/v3.1/name/${name}`);
+
+//     if (!response.ok) {
+//       throw new Error(response.statusText);
+//     }
+
+//     return await response.json();
+//   } catch (error) {
+//     console.error(error);
+//   }
+// }
+
+// serviceCountry('Canada').then(console.log)
+
+//! AXIOS
+// async function serviceCountry(name) {
+//   try {
+//     const data = await axios.get(`https://restcountries.com/v3.1/name/${name}`);
+
+//     return data;
+//   } catch (error) {
+//     console.error(error.message);
+//   }
+// }
+
+// serviceCountry('Canada').then(console.log);
+
+// ****** Последовательные запросы ******
+
+// async function serviceCountry() {
+//   try {
+//     const canada = await axios.get(
+//       `https://restcountries.com/v3.1/name/canada`
+//     );
+//     console.log(canada.data);
+
+//     const france = await axios.get(
+//       `https://restcountries.com/v3.1/name/france`
+//     );
+//     console.log(france.data);
+
+//     const germany = await axios.get(
+//       `https://restcountries.com/v3.1/name/germany`
+//     );
+//     console.log(germany.data);
+//   } catch (error) {
+//     console.error(error);
+//   }
+// }
+
+// serviceCountry().then(console.log);
+
+// ****** Паралельные запросы ******
+
+// async function serviceCountry() {
+//   try {
+//     const countryArr = ['canada', 'france', 'germany'];
+
+//     return countryArr.map(async country => {
+//       const { data } = await axios.get(
+//         `https://restcountries.com/v3.1/name/${country}`
+//       );
+//       return data;
+//     });
+//   } catch (error) {
+//     console.error(error.message);
+//   }
+// }
+
+// serviceCountry().then(console.log);
+
+// ?===========================
+
+// API KEY: 66f9e81543404d02beb160521230808
+
+const refs = {
+  form: document.querySelector('.js-search'),
+  container: document.querySelector('.js-form-container'),
+  list: document.querySelector('.js-list'),
+  addCountry: document.querySelector('.js-add'),
+};
+
+refs.addCountry.addEventListener('click', addCountryField);
+refs.form.addEventListener('submit', onSubmit);
+
+async function onSubmit(e) {
+  e.preventDefault();
+
+  const formData = new FormData(e.currentTarget);
+  const countries = formData
+    .getAll('country')
+    .map(country => country.trim())
+    .filter(country => country);
+
+  try {
+    const capitals = await serviceCountries(countries);
+    const weather = await serviceWeather(capitals);
+    console.log(capitals);
+    console.log(weather[0].value);
+  } catch (error) {
+    console.error(error);
+  } finally {
+    e.target.reset();
+    refs.container.innerHTML = '<input type="text" name="country">';
+  }
+}
+
+function addCountryField() {
+  refs.container.insertAdjacentHTML(
+    'beforeend',
+    '<input type="text" name="country">'
+  );
+}
+
+async function serviceCountries(countries) {
+  const resps = countries.map(async country => {
+    const { data } = await axios.get(
+      `https://restcountries.com/v3.1/name/${country}`
+    );
+
+    return data;
+  });
+
+  const results = await Promise.allSettled(resps);
+  return results
+    .filter(({ status }) => status === 'fulfilled')
+    .map(({ value }) => value[0].capital[0]);
+}
+
+async function serviceWeather(capitals) {
+  const BASE_URL = 'http://api.weatherapi.com/v1';
+  const ENDPOINT = 'forecast.json';
+  const API_KEY = '66f9e81543404d02beb160521230808';
+
+  const resps = capitals.map(async capital => {
+    const { data } = await axios.get(
+      `${BASE_URL}/${ENDPOINT}?key=${API_KEY}&q=${capital}&lang=ru`
+    );
+
+    return data;
+  });
+
+  const results = await Promise.allSettled(resps);
+  return results.filter(({ status }) => status === 'fulfilled');
+}
