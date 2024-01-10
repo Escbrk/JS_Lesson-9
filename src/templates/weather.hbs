@@ -1,0 +1,9 @@
+{{#each value}}
+  <li class='weather-card'>
+    <img src='{{icon}}' alt='{{text}}' class='weather-icon' />
+    <h2>{{name}}, {{country}}</h2>
+    <h2 class="date">{{date}}</h2>
+    <h3 class="weather-text">{{text}}</h3>
+    <h3 class="temperature">{{temp_c}}</h3>
+  </li>
+{{/each}}

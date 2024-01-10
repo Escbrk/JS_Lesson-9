@@ -1508,6 +1508,8 @@ import * as BSN from 'bootstrap.native';
 
 // API KEY: 66f9e81543404d02beb160521230808
 
+import weatherTpl from '../templates/weather.hbs';
+
 const refs = {
   form: document.querySelector('.js-search'),
   container: document.querySelector('.js-form-container'),
@@ -1530,8 +1532,9 @@ async function onSubmit(e) {
   try {
     const capitals = await serviceCountries(countries);
     const weather = await serviceWeather(capitals);
-    console.log(capitals);
-    console.log(weather[0].value);
+
+    refs.list.innerHTML = weatherTpl(weather);
+    console.log(weather);
   } catch (error) {
     console.error(error);
   } finally {
@@ -1576,5 +1579,7 @@ async function serviceWeather(capitals) {
   });
 
   const results = await Promise.allSettled(resps);
-  return results.filter(({ status }) => status === 'fulfilled');
+  return results
+    .filter(({ status }) => status === 'fulfilled')
+    .map(value => value);
 }
