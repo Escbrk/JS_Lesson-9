@@ -1533,12 +1533,10 @@ async function onSubmit(e) {
     const capitals = await serviceCountries(countries);
     const weather = await serviceWeather(capitals);
 
-    console.log(weather)
     refs.list.innerHTML = createMarkup(weather);
   } catch (error) {
     console.error(error);
   } finally {
-    e.target.reset();
     refs.container.innerHTML = '<input type="text" name="country">';
   }
 }
