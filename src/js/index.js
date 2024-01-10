@@ -1533,8 +1533,8 @@ async function onSubmit(e) {
     const capitals = await serviceCountries(countries);
     const weather = await serviceWeather(capitals);
 
-    refs.list.innerHTML = weatherTpl(weather);
-    console.log(weather);
+    console.log(weather)
+    refs.list.innerHTML = createMarkup(weather);
   } catch (error) {
     console.error(error);
   } finally {
@@ -1581,5 +1581,35 @@ async function serviceWeather(capitals) {
   const results = await Promise.allSettled(resps);
   return results
     .filter(({ status }) => status === 'fulfilled')
-    .map(value => value);
+    .map(({ value: { current, location, forecast } }) => {
+      const {
+        temp_c,
+        condition: { text, icon },
+      } = current;
+      const { country, name } = location;
+      const { forecastday } = forecast;
+      const date = forecastday[0].date;
+      return { temp_c, text, icon, country, name, date };
+    });
+}
+
+function createMarkup(arr) {
+  return arr
+    .map(
+      ({
+        temp_c,
+        text,
+        date,
+        icon,
+        country,
+        name,
+      }) => `  <li class='weather-card'>
+    <img src='${icon}' alt='${text}' class='weather-icon' />
+    <h2>${name}, ${country}</h2>
+    <h2>${date}</h2>
+    <h3 class="weather-text">${text}</h3>
+    <h3 class="temperature">${temp_c}</h3>
+  </li>`
+    )
+    .join('');
 }
