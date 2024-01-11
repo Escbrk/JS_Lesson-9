@@ -1508,106 +1508,110 @@ import * as BSN from 'bootstrap.native';
 
 // API KEY: 66f9e81543404d02beb160521230808
 
-import weatherTpl from '../templates/weather.hbs';
+// import weatherTpl from '../templates/weather.hbs';
 
-const refs = {
-  form: document.querySelector('.js-search'),
-  container: document.querySelector('.js-form-container'),
-  list: document.querySelector('.js-list'),
-  addCountry: document.querySelector('.js-add'),
-};
+// const refs = {
+//   form: document.querySelector('.js-search'),
+//   container: document.querySelector('.js-form-container'),
+//   list: document.querySelector('.js-list'),
+//   addCountry: document.querySelector('.js-add'),
+// };
 
-refs.addCountry.addEventListener('click', addCountryField);
-refs.form.addEventListener('submit', onSubmit);
+// refs.addCountry.addEventListener('click', addCountryField);
+// refs.form.addEventListener('submit', onSubmit);
 
-async function onSubmit(e) {
-  e.preventDefault();
+// async function onSubmit(e) {
+//   e.preventDefault();
 
-  const formData = new FormData(e.currentTarget);
-  const countries = formData
-    .getAll('country')
-    .map(country => country.trim())
-    .filter(country => country);
+//   const formData = new FormData(e.currentTarget);
+//   const countries = formData
+//     .getAll('country')
+//     .map(country => country.trim())
+//     .filter(country => country);
 
-  try {
-    const capitals = await serviceCountries(countries);
-    const weather = await serviceWeather(capitals);
+//   try {
+//     const capitals = await serviceCountries(countries);
+//     const weather = await serviceWeather(capitals);
 
-    refs.list.innerHTML = createMarkup(weather);
-  } catch (error) {
-    console.error(error);
-  } finally {
-    refs.container.innerHTML = '<input type="text" name="country">';
-  }
-}
+//     refs.list.innerHTML = createMarkup(weather);
+//   } catch (error) {
+//     console.error(error);
+//   } finally {
+//     refs.container.innerHTML = '<input type="text" name="country">';
+//   }
+// }
 
-function addCountryField() {
-  refs.container.insertAdjacentHTML(
-    'beforeend',
-    '<input type="text" name="country">'
-  );
-}
+// function addCountryField() {
+//   refs.container.insertAdjacentHTML(
+//     'beforeend',
+//     '<input type="text" name="country">'
+//   );
+// }
 
-async function serviceCountries(countries) {
-  const resps = countries.map(async country => {
-    const { data } = await axios.get(
-      `https://restcountries.com/v3.1/name/${country}`
-    );
+// async function serviceCountries(countries) {
+//   const resps = countries.map(async country => {
+//     const { data } = await axios.get(
+//       `https://restcountries.com/v3.1/name/${country}`
+//     );
 
-    return data;
-  });
+//     return data;
+//   });
 
-  const results = await Promise.allSettled(resps);
-  return results
-    .filter(({ status }) => status === 'fulfilled')
-    .map(({ value }) => value[0].capital[0]);
-}
+//   const results = await Promise.allSettled(resps);
+//   return results
+//     .filter(({ status }) => status === 'fulfilled')
+//     .map(({ value }) => value[0].capital[0]);
+// }
 
-async function serviceWeather(capitals) {
-  const BASE_URL = 'http://api.weatherapi.com/v1';
-  const ENDPOINT = 'forecast.json';
-  const API_KEY = '66f9e81543404d02beb160521230808';
+// async function serviceWeather(capitals) {
+//   const BASE_URL = 'http://api.weatherapi.com/v1';
+//   const ENDPOINT = 'forecast.json';
+//   const API_KEY = '66f9e81543404d02beb160521230808';
 
-  const resps = capitals.map(async capital => {
-    const { data } = await axios.get(
-      `${BASE_URL}/${ENDPOINT}?key=${API_KEY}&q=${capital}&lang=ru`
-    );
+//   const resps = capitals.map(async capital => {
+//     const { data } = await axios.get(
+//       `${BASE_URL}/${ENDPOINT}?key=${API_KEY}&q=${capital}&lang=ru`
+//     );
 
-    return data;
-  });
+//     return data;
+//   });
 
-  const results = await Promise.allSettled(resps);
-  return results
-    .filter(({ status }) => status === 'fulfilled')
-    .map(({ value: { current, location, forecast } }) => {
-      const {
-        temp_c,
-        condition: { text, icon },
-      } = current;
-      const { country, name } = location;
-      const { forecastday } = forecast;
-      const date = forecastday[0].date;
-      return { temp_c, text, icon, country, name, date };
-    });
-}
+//   const results = await Promise.allSettled(resps);
+//   return results
+//     .filter(({ status }) => status === 'fulfilled')
+//     .map(({ value: { current, location, forecast } }) => {
+//       const {
+//         temp_c,
+//         condition: { text, icon },
+//       } = current;
+//       const { country, name } = location;
+//       const { forecastday } = forecast;
+//       const date = forecastday[0].date;
+//       return { temp_c, text, icon, country, name, date };
+//     });
+// }
 
-function createMarkup(arr) {
-  return arr
-    .map(
-      ({
-        temp_c,
-        text,
-        date,
-        icon,
-        country,
-        name,
-      }) => `  <li class='weather-card'>
-    <img src='${icon}' alt='${text}' class='weather-icon' />
-    <h2>${name}, ${country}</h2>
-    <h2>${date}</h2>
-    <h3 class="weather-text">${text}</h3>
-    <h3 class="temperature">${temp_c}</h3>
-  </li>`
-    )
-    .join('');
-}
+// function createMarkup(arr) {
+//   return arr
+//     .map(
+//       ({
+//         temp_c,
+//         text,
+//         date,
+//         icon,
+//         country,
+//         name,
+//       }) => `  <li class='weather-card'>
+//     <img src='${icon}' alt='${text}' class='weather-icon' />
+//     <h2>${name}, ${country}</h2>
+//     <h2>${date}</h2>
+//     <h3 class="weather-text">${text}</h3>
+//     <h3 class="temperature">${temp_c}</h3>
+//   </li>`
+//     )
+//     .join('');
+// }
+
+// ?===========================
+
+
