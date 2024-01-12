@@ -1614,4 +1614,41 @@ import * as BSN from 'bootstrap.native';
 
 // ?===========================
 
+import axios from 'axios';
 
+// const fetchTodos = () => {
+//   return fetch('https://jsonplaceholder.typicode.com/todos')
+//     .then(response => response.json())
+//     .then(data => data);
+// };
+
+// fetchTodos()
+//   .then(data => console.log(data))
+//   .catch(e => console.error(e));
+
+// axios
+//   .get('https://jsonplaceholder.typicode.com/todos')
+//   .then(response => console.log(response.data)).catch(e => console.error(e))
+
+// const fetchTodos2 = async () => {
+//   try {
+//     return (await fetch('https://jsonplaceholder.typicode.com/todos')).json();
+//   } catch (err) {
+//     console.error(err);
+//   }
+// };
+
+// fetchTodos2()
+//   .then(data => console.log(data))
+//   .catch(e => console.error(e));
+
+// ?===========================
+
+const refs = {
+  searchForm: document.querySelector('.search-form'),
+  cardContainer: document.querySelector(''.card - container),
+};
+
+async function fetchPokemon(id) {
+  return (await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)).json();
+}
