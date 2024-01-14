@@ -1614,7 +1614,7 @@ import * as BSN from 'bootstrap.native';
 
 // ?===========================
 
-import axios from 'axios';
+// import axios from 'axios';
 
 // const fetchTodos = () => {
 //   return fetch('https://jsonplaceholder.typicode.com/todos')
@@ -1644,11 +1644,112 @@ import axios from 'axios';
 
 // ?===========================
 
-const refs = {
-  searchForm: document.querySelector('.search-form'),
-  cardContainer: document.querySelector(''.card - container),
+// const refs = {
+//   searchForm: document.querySelector('.search-form'),
+//   cardContainer: document.querySelector('.card-container'),
+// };
+
+// async function fetchPokemon(id) {
+//   return (await fetch(`https://pokeapi.co/api/v2/pokemon/${id.toLowerCase()}`)).json();
+// }
+
+// refs.searchForm.addEventListener('submit', onSubmit);
+
+// async function onSubmit(e) {
+//   e.preventDefault();
+
+//   const form = e.currentTarget
+//   const searchQuery = form.elements.query.value;
+
+//   try {
+//     const foundPokemon = await fetchPokemon(searchQuery);
+//     renderPokemonCard(foundPokemon);
+//   } catch (error) {
+//     alert(error);
+//   } finally {
+//     form.reset();
+//   }
+// }
+
+// function renderPokemonCard({ name, sprites, weight, height, abilities }) {
+//   const abilityListItems = abilities.reduce(
+//     (html, {ability}) => html + `<li class="list-group-item">${ability.name}</li>`, ''
+//   );
+
+//   const markup = `    <div class="card" style="width: 300px">
+//       <div class="card-img-top">
+//         <img src="${sprites.front_default}" alt="${name}">
+//       </div>
+//       <div class="card-body">
+//         <h2>Name: ${name}</h2>
+//         <p class="card-text">Weight: ${weight}</p>
+//         <p class="card-text">Height: ${height}</p>
+
+//         <p class="card-text"><b>Skills:</b></p>
+//         <ul class="list-group">${abilityListItems}</ul>
+//       </div>
+//     </div>`;
+//   refs.cardContainer.innerHTML = markup;
+// }
+
+// ?===========================
+import axios from 'axios';
+
+const instance = axios.create({
+  baseURL: 'http://localhost:3000/',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+const getAxiosData = response => res.data;
+
+const createRequest = async (endpoint, config = {}) => {
+  config.headers = {
+    'Content-Type': 'application/json',
+    ...config.headers,
+  };
+
+  const response = await fetch(BASE_URL + endpoint, config);
+
+  if (!response.ok) {
+    throw new Error(`Request isn't ok: ${response.statusText}`);
+  }
+
+  return response.json();
 };
 
-async function fetchPokemon(id) {
-  return (await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)).json();
-}
+const getBooks = () => instance.get('book').then(getAxiosData)
+
+const createBook = book => {
+  return createRequest('book', {
+    method: 'POST',
+    body: JSON.stringify(book),
+  });
+};
+
+const updateBook = book => {
+  return createRequest('book/' + book.id, {
+    method: 'PUT',
+    body: JSON.stringify(book),
+  });
+};
+
+const deleteBook = id => {
+  return createRequest('book/' + id, {
+    method: 'DELETE',
+  });
+};
+
+instance
+  .get('book')
+  .then(response => console.log(response.data))
+  .catch(console.log());
+
+instance.put('book/16', {
+  author: 'Mrs. Denise Olson',
+  name: 'Walk Like an Egyptian',
+  pointer: '200',
+  prise: '100.00',
+  titleImage: 'https://loremflickr.com/640/480',
+});

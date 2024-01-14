@@ -21,5 +21,31 @@
       "comment": "Help me pls",
       "id": 5
     }
+  ],
+  "book": [
+    {
+      "author": "Mrs. Denise Olson",
+      "name": "Walk Like an Egyptian",
+      "pointer": "200",
+      "prise": "100.00",
+      "titleImage": "https://loremflickr.com/640/480",
+      "id": "16"
+    },
+    {
+      "name": "Don't Stop 'Til You Get Enough",
+      "prise": "609.00",
+      "titleImage": "https://loremflickr.com/640/480",
+      "author": "Kristen Larson",
+      "pointer": 12,
+      "id": "24"
+    },
+    {
+      "name": "I Feel Love",
+      "titleImage": "https://loremflickr.com/640/480",
+      "prise": "742.00",
+      "author": "Darin Beatty",
+      "pointer": "80",
+      "id": "25"
+    }
   ]
 }
