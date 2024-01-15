@@ -1702,7 +1702,7 @@ const instance = axios.create({
   },
 });
 
-const getAxiosData = response => res.data;
+const getAxiosData = response => response.data;
 
 const createRequest = async (endpoint, config = {}) => {
   config.headers = {
@@ -1719,27 +1719,16 @@ const createRequest = async (endpoint, config = {}) => {
   return response.json();
 };
 
-const getBooks = () => instance.get('book').then(getAxiosData)
+const getBooks = async () => getAxiosData(await instance.get('book'));
 
-const createBook = book => {
-  return createRequest('book', {
-    method: 'POST',
-    body: JSON.stringify(book),
-  });
-};
+const createBook = async book =>
+  getAxiosData(await instance.post('book', book));
 
-const updateBook = book => {
-  return createRequest('book/' + book.id, {
-    method: 'PUT',
-    body: JSON.stringify(book),
-  });
-};
+const updateBook = async book =>
+  getAxiosData(await instance.put(`book/${book.id}`, book));
 
-const deleteBook = id => {
-  return createRequest('book/' + id, {
-    method: 'DELETE',
-  });
-};
+const deleteBook = async id =>
+  getAxiosData(await instance.delete(`book/${id}`));
 
 instance
   .get('book')
@@ -1753,3 +1742,6 @@ instance.put('book/16', {
   prise: '100.00',
   titleImage: 'https://loremflickr.com/640/480',
 });
+
+
+const bookList = document.querySelector('.book-list')
