@@ -24,26 +24,26 @@
   ],
   "book": [
     {
-      "author": "Mrs. Denise Olson",
       "name": "Walk Like an Egyptian",
-      "pointer": "200",
-      "prise": "100.00",
+      "author": "Mrs. Denise Olson",
       "titleImage": "https://loremflickr.com/640/480",
+      "price": "100.00",
+      "pointer": "200",
       "id": "16"
     },
     {
       "name": "Don't Stop 'Til You Get Enough",
-      "prise": "609.00",
-      "titleImage": "https://loremflickr.com/640/480",
       "author": "Kristen Larson",
-      "pointer": 12,
+      "titleImage": "https://loremflickr.com/640/480",
+      "price": "609.00",
+      "pointer": "12",
       "id": "24"
     },
     {
       "name": "I Feel Love",
-      "titleImage": "https://loremflickr.com/640/480",
-      "prise": "742.00",
       "author": "Darin Beatty",
+      "titleImage": "https://loremflickr.com/640/480",
+      "price": "742.00",
       "pointer": "80",
       "id": "25"
     }

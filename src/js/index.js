@@ -1695,6 +1695,11 @@ import * as BSN from 'bootstrap.native';
 // ?===========================
 import axios from 'axios';
 
+const refs = {
+  bookList: document.querySelector('.books-list'),
+  form: document.querySelector('.create-book-form'),
+};
+
 const instance = axios.create({
   baseURL: 'http://localhost:3000/',
   headers: {
@@ -1725,7 +1730,7 @@ const createBook = async book =>
   getAxiosData(await instance.post('book', book));
 
 const updateBook = async book =>
-  getAxiosData(await instance.put(`book/${book.id}`, book));
+  getAxiosData(await instance.patch(`book/${book.id}`, book));
 
 const deleteBook = async id =>
   getAxiosData(await instance.delete(`book/${id}`));
@@ -1735,13 +1740,107 @@ instance
   .then(response => console.log(response.data))
   .catch(console.log());
 
-instance.put('book/16', {
-  author: 'Mrs. Denise Olson',
+instance.patch('book/16', {
   name: 'Walk Like an Egyptian',
-  pointer: '200',
-  prise: '100.00',
+  author: 'Mrs. Denise Olson',
   titleImage: 'https://loremflickr.com/640/480',
+  price: '100.00',
+  pointer: '200',
 });
 
+const render = async () => {
+  try {
+    const books = await getBooks();
 
-const bookList = document.querySelector('.book-list')
+    const booksHTML = books.reduce(
+      (html, { id, name, author, pointer, price, titleImage }) =>
+        html +
+        `
+      <div class="book" data-bookId="${id}">
+          <img src="${titleImage}" alt="${name}" />
+          <p class="name">${name}</p>
+          <p class="author">${author}</p>
+          <p class="price">$${Number(price)}</p>
+          <div class="pointer">
+            <input name="pointer" type="number" value="${pointer}" placeholder="Book pointer" />
+            <button type="submit" class="save-pointer" data-id="${id}">Save</button>
+          </div>
+          <button type="button" class="delete" data-id="${id}">X</button>
+      </div>`,
+      ''
+    );
+
+    refs.bookList.innerHTML = booksHTML;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+render();
+
+refs.bookList.addEventListener('click', e => {
+  const element = e.target;
+
+  handleDeleteBtn(element);
+  saveBtn(element);
+});
+
+async function handleDeleteBtn(element) {
+  if (!element.classList.contains('delete')) return;
+
+  const bookId = element.dataset.id;
+
+  try {
+    const { id } = await deleteBook(bookId).then(({ id }) => {
+      if (id) document.querySelector(`.book [data-bookId="${id}"]`).remove();
+
+      render();
+    });
+  } catch (error) {
+    if (axios.isAxiosError(error)) alert(error.response.statusText);
+    // axios.isAxiosError(error) && alert(error.response.statusText);
+  }
+}
+
+async function saveBtn(element) {
+  if (!element.classList.contains('save-pointer')) return;
+
+  const bookId = element.dataset.id;
+  const pointerInput = document.querySelector(
+    `.book[data-bookId="${bookId}"] input[name="pointer"]`
+  );
+
+  const updatedBook = await updateBook({
+    id: bookId,
+    pointer: pointerInput.value,
+  });
+
+  alert(`Book "${updatedBook.name}" is updated`);
+}
+
+refs.form.addEventListener('submit', postNewBook);
+
+async function postNewBook(e) {
+  e.preventDefault();
+  // const { name, author, price, img, pointer } = refs.form.elements;
+  // createBook({
+  //   name: name.value,
+  //   price: price.value,
+  //   titleImage: titleImage.value,
+  //   author: author.value,
+  //   pointer: pointer.value,
+  // })
+  //   .then(render)
+  //   .finally(() => e.target.reset());
+
+  const formData = new FormData(e.currentTarget);
+
+  const book = {};
+
+  formData.forEach((value, key) => (book[key] = value));
+
+  const createdBook = await createBook(book);
+
+  render(createdBook);
+  e.target.reset();
+}
