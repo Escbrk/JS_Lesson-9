@@ -1693,154 +1693,163 @@ import * as BSN from 'bootstrap.native';
 // }
 
 // ?===========================
-import axios from 'axios';
+// import axios from 'axios';
 
-const refs = {
-  bookList: document.querySelector('.books-list'),
-  form: document.querySelector('.create-book-form'),
-};
+// const refs = {
+//   bookList: document.querySelector('.books-list'),
+//   form: document.querySelector('.create-book-form'),
+// };
 
-const instance = axios.create({
-  baseURL: 'http://localhost:3000/',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
+// const instance = axios.create({
+//   baseURL: 'http://localhost:3000/',
+//   headers: {
+//     'Content-Type': 'application/json',
+//   },
+// });
 
-const getAxiosData = response => response.data;
+// const getAxiosData = response => response.data;
 
-const createRequest = async (endpoint, config = {}) => {
-  config.headers = {
-    'Content-Type': 'application/json',
-    ...config.headers,
-  };
+// const createRequest = async (endpoint, config = {}) => {
+//   config.headers = {
+//     'Content-Type': 'application/json',
+//     ...config.headers,
+//   };
 
-  const response = await fetch(BASE_URL + endpoint, config);
+//   const response = await fetch(BASE_URL + endpoint, config);
 
-  if (!response.ok) {
-    throw new Error(`Request isn't ok: ${response.statusText}`);
-  }
+//   if (!response.ok) {
+//     throw new Error(`Request isn't ok: ${response.statusText}`);
+//   }
 
-  return response.json();
-};
+//   return response.json();
+// };
 
-const getBooks = async () => getAxiosData(await instance.get('book'));
+// const getBooks = async () => getAxiosData(await instance.get('book'));
 
-const createBook = async book =>
-  getAxiosData(await instance.post('book', book));
+// const createBook = async book =>
+//   getAxiosData(await instance.post('book', book));
 
-const updateBook = async book =>
-  getAxiosData(await instance.patch(`book/${book.id}`, book));
+// const updateBook = async book =>
+//   getAxiosData(await instance.patch(`book/${book.id}`, book));
 
-const deleteBook = async id =>
-  getAxiosData(await instance.delete(`book/${id}`));
+// const deleteBook = async id =>
+//   getAxiosData(await instance.delete(`book/${id}`));
 
-instance
-  .get('book')
-  .then(response => console.log(response.data))
-  .catch(console.log());
+// instance
+//   .get('book')
+//   .then(response => console.log(response.data))
+//   .catch(console.log());
 
-instance.patch('book/16', {
-  name: 'Walk Like an Egyptian',
-  author: 'Mrs. Denise Olson',
-  titleImage: 'https://loremflickr.com/640/480',
-  price: '100.00',
-  pointer: '200',
-});
+// instance.patch('book/16', {
+//   name: 'Walk Like an Egyptian',
+//   author: 'Mrs. Denise Olson',
+//   titleImage: 'https://loremflickr.com/640/480',
+//   price: '100.00',
+//   pointer: '200',
+// });
 
-const render = async () => {
-  try {
-    const books = await getBooks();
+// const render = async () => {
+//   try {
+//     const books = await getBooks();
 
-    const booksHTML = books.reduce(
-      (html, { id, name, author, pointer, price, titleImage }) =>
-        html +
-        `
-      <div class="book" data-bookId="${id}">
-          <img src="${titleImage}" alt="${name}" />
-          <p class="name">${name}</p>
-          <p class="author">${author}</p>
-          <p class="price">$${Number(price)}</p>
-          <div class="pointer">
-            <input name="pointer" type="number" value="${pointer}" placeholder="Book pointer" />
-            <button type="submit" class="save-pointer" data-id="${id}">Save</button>
-          </div>
-          <button type="button" class="delete" data-id="${id}">X</button>
-      </div>`,
-      ''
-    );
+//     const booksHTML = books.reduce(
+//       (html, { id, name, author, pointer, price, titleImage }) =>
+//         html +
+//         `
+//       <div class="book" data-bookId="${id}">
+//           <img src="${titleImage}" alt="${name}" />
+//           <p class="name">${name}</p>
+//           <p class="author">${author}</p>
+//           <p class="price">$${Number(price)}</p>
+//           <div class="pointer">
+//             <input name="pointer" type="number" value="${pointer}" placeholder="Book pointer" />
+//             <button type="submit" class="save-pointer" data-id="${id}">Save</button>
+//           </div>
+//           <button type="button" class="delete" data-id="${id}">X</button>
+//       </div>`,
+//       ''
+//     );
 
-    refs.bookList.innerHTML = booksHTML;
-  } catch (error) {
-    console.error(error);
-  }
-};
+//     refs.bookList.innerHTML = booksHTML;
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
 
-render();
+// render();
 
-refs.bookList.addEventListener('click', e => {
-  const element = e.target;
+// refs.bookList.addEventListener('click', e => {
+//   const element = e.target;
 
-  handleDeleteBtn(element);
-  saveBtn(element);
-});
+//   handleDeleteBtn(element);
+//   saveBtn(element);
+// });
 
-async function handleDeleteBtn(element) {
-  if (!element.classList.contains('delete')) return;
+// async function handleDeleteBtn(element) {
+//   if (!element.classList.contains('delete')) return;
 
-  const bookId = element.dataset.id;
+//   const bookId = element.dataset.id;
 
-  try {
-    const { id } = await deleteBook(bookId).then(({ id }) => {
-      if (id) document.querySelector(`.book [data-bookId="${id}"]`).remove();
+//   try {
+//     const { id } = await deleteBook(bookId).then(({ id }) => {
+//       if (id) document.querySelector(`.book [data-bookId="${id}"]`).remove();
 
-      render();
-    });
-  } catch (error) {
-    if (axios.isAxiosError(error)) alert(error.response.statusText);
-    // axios.isAxiosError(error) && alert(error.response.statusText);
-  }
-}
+//       render();
+//     });
+//   } catch (error) {
+//     if (axios.isAxiosError(error)) alert(error.response.statusText);
+//     // axios.isAxiosError(error) && alert(error.response.statusText);
+//   }
+// }
 
-async function saveBtn(element) {
-  if (!element.classList.contains('save-pointer')) return;
+// async function saveBtn(element) {
+//   if (!element.classList.contains('save-pointer')) return;
 
-  const bookId = element.dataset.id;
-  const pointerInput = document.querySelector(
-    `.book[data-bookId="${bookId}"] input[name="pointer"]`
-  );
+//   const bookId = element.dataset.id;
+//   const pointerInput = document.querySelector(
+//     `.book[data-bookId="${bookId}"] input[name="pointer"]`
+//   );
 
-  const updatedBook = await updateBook({
-    id: bookId,
-    pointer: pointerInput.value,
-  });
+//   const updatedBook = await updateBook({
+//     id: bookId,
+//     pointer: pointerInput.value,
+//   });
 
-  alert(`Book "${updatedBook.name}" is updated`);
-}
+//   alert(`Book "${updatedBook.name}" is updated`);
+// }
 
-refs.form.addEventListener('submit', postNewBook);
+// refs.form.addEventListener('submit', postNewBook);
 
-async function postNewBook(e) {
-  e.preventDefault();
-  // const { name, author, price, img, pointer } = refs.form.elements;
-  // createBook({
-  //   name: name.value,
-  //   price: price.value,
-  //   titleImage: titleImage.value,
-  //   author: author.value,
-  //   pointer: pointer.value,
-  // })
-  //   .then(render)
-  //   .finally(() => e.target.reset());
+// async function postNewBook(e) {
+//   e.preventDefault();
+//   // const { name, author, price, titleImage, pointer } = refs.form.elements;
+//   // createBook({
+//   //   name: name.value,
+//   //   price: price.value,
+//   //   titleImage: titleImage.value,
+//   //   author: author.value,
+//   //   pointer: pointer.value,
+//   // })
+//   //   .then(render)
+//   //   .finally(() => e.target.reset());
 
-  const formData = new FormData(e.currentTarget);
+//   const formData = new FormData(e.currentTarget);
 
-  const book = {};
+//   const book = {};
 
-  formData.forEach((value, key) => (book[key] = value));
+//   formData.forEach((value, key) => (book[key] = value));
 
-  const createdBook = await createBook(book);
+//   const createdBook = await createBook(book);
 
-  render(createdBook);
-  e.target.reset();
-}
+//   render(createdBook);
+//   e.target.reset();
+// }
+
+// instance.interceptors.request.use(
+//   config => {
+//     console.log(`${config.method} ${config.url}`)
+//     console.log(config)
+//     return config
+//   });
+
+// ?===========================
