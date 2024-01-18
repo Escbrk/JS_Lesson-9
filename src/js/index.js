@@ -1853,3 +1853,111 @@ import * as BSN from 'bootstrap.native';
 //   });
 
 // ?===========================
+import axios from 'axios';
+
+//* api key: abeb1fead2de446d8cf3c831a721e668
+
+const api = axios.create({
+  baseURL: 'http://newsapi.org/v2/',
+  params: {
+    apiKey: 'abeb1fead2de446d8cf3c831a721e668',
+    language: 'en',
+  },
+});
+
+const refs = {
+  searchForm: document.querySelector('.search-form'),
+  articlesContainer: document.querySelector('.articles'),
+  loadMoreBtn: document.querySelector('button[data-action="load-more"]'),
+};
+
+function renderArticles(articles = []) {
+  const markup = articles.reduce(
+    (html, { url, urlToImage, title, author, description }) =>
+      html +
+      `
+<li>
+  <a href="${url}" target="_blank" rel="noopener noreferrer">
+  <article>
+    <img src="${urlToImage}" alt="${title} width="480">
+    <h2>${title}</h2>
+    <p>Posted by: ${author}</p>
+    <div class="description-wrapper">
+      <p class="description">${description}</p>
+    </div>
+  </article></a>
+</li>
+    `,
+    ''
+  );
+
+  refs.articlesContainer.insertAdjacentHTML('beforeend', markup);
+}
+
+// api.get('everything?q=cat&pageSize=2&page=1')
+
+// const getArticles = params => {
+//   return api
+//     .get('everything', { params })
+//     .then(response => response.data)
+//     .catch(console.error);
+// };
+
+const getArticles = async params => {
+  try {
+    const response = await api.get('everything', { params });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const createGetArticlesRequest = q => {
+  let page = 1;
+  const pageSize = 5;
+  let isLastPage = false;
+
+  return async () => {
+    try {
+      console.log(isLastPage);
+      console.log(page);
+      if (isLastPage) return;
+
+      const { articles, totalResults } = await getArticles({
+        page,
+        pageSize,
+        q,
+      });
+
+      if (page >= Math.ceil(totalResults / pageSize)) {
+        isLastPage = true;
+      }
+      page += 1;
+
+      return articles;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
+//?============================
+
+refs.searchForm.addEventListener('submit', async e => {
+  e.preventDefault();
+
+  refs.articlesContainer.innerHTML = '';
+
+  const data = new FormData(e.currentTarget);
+
+  const query = data.get('query');
+
+  const fetchArticles = createGetArticlesRequest(query);
+
+  const articles = await fetchArticles();
+    renderArticles(articles);
+    
+    refs.loadMoreBtn.addEventListener(fetchArticles)
+
+  e.currentTarget.reset();
+});
