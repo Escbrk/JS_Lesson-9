@@ -1869,6 +1869,7 @@ const refs = {
   searchForm: document.querySelector('.search-form'),
   articlesContainer: document.querySelector('.articles'),
   loadMoreBtn: document.querySelector('button[data-action="load-more"]'),
+  loadMoreSpinner: document.querySelector('.load-more-spinner'),
 };
 
 function renderArticles(articles = []) {
@@ -1914,14 +1915,15 @@ const getArticles = async params => {
 
 const createGetArticlesRequest = q => {
   let page = 1;
-  const pageSize = 5;
   let isLastPage = false;
+  const pageSize = 5;
 
   return async () => {
     try {
-      console.log(isLastPage);
-      console.log(page);
-      if (isLastPage) return;
+      if (isLastPage) {
+        refs.loadMoreBtn.classList.add('is-hidden');
+        return [];
+      }
 
       const { articles, totalResults } = await getArticles({
         page,
@@ -1941,10 +1943,20 @@ const createGetArticlesRequest = q => {
   };
 };
 
-//?============================
+const fetchArticlesWithRender = async articlesFetcher => {
+  const articles = await articlesFetcher();
+  // renderArticles(articles);
+};
+
+let doFetch = null;
 
 refs.searchForm.addEventListener('submit', async e => {
   e.preventDefault();
+
+  if (doFetch !== null) {
+    refs.loadMoreBtn.removeEventListener('click', doFetch);
+    doFetch = null;
+  }
 
   refs.articlesContainer.innerHTML = '';
 
@@ -1953,11 +1965,41 @@ refs.searchForm.addEventListener('submit', async e => {
   const query = data.get('query');
 
   const fetchArticles = createGetArticlesRequest(query);
+  fetchArticlesWithRender(fetchArticles);
 
-  const articles = await fetchArticles();
-    renderArticles(articles);
+  doFetch = async () => {
+    const articles = await makePromiseWithSpinner({
+      promise: fetchArticles,
+      spinner: refs.loadMoreSpinner,
+    });
     
-    refs.loadMoreBtn.addEventListener(fetchArticles)
+    renderArticles(articles);
+  };
+  
+  await makePromiseWithSpinner({
+    promise: doFetch,
+    spinner: refs.loadMoreBtn
+  })
 
-  e.currentTarget.reset();
+  refs.loadMoreBtn.classList.add('is-hidden');
+  await doFetch();
+  refs.loadMoreBtn.classList.remove('is-hidden');
+
+  refs.loadMoreBtn.addEventListener('click', doFetch);
+
+  e.target.reset();
 });
+
+async function makePromiseWithSpinner({
+  promise,
+  spinner,
+  className = 'is-hidden',
+}) {
+  spinner.classList.remove(className);
+  const response = await promise();
+  spinner.classList.add(className);
+
+  return response;
+}
+
+//?============================
