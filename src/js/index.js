@@ -1972,14 +1972,14 @@ refs.searchForm.addEventListener('submit', async e => {
       promise: fetchArticles,
       spinner: refs.loadMoreSpinner,
     });
-    
+
     renderArticles(articles);
   };
-  
+
   await makePromiseWithSpinner({
     promise: doFetch,
-    spinner: refs.loadMoreBtn
-  })
+    spinner: refs.loadMoreBtn,
+  });
 
   refs.loadMoreBtn.classList.add('is-hidden');
   await doFetch();
