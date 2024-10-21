@@ -1853,154 +1853,154 @@ import * as BSN from 'bootstrap.native';
 //   });
 
 // ?===========================
-import axios from 'axios';
+// import axios from 'axios';
 
-//* api key: abeb1fead2de446d8cf3c831a721e668
+// //* api key: abeb1fead2de446d8cf3c831a721e668
 
-const api = axios.create({
-  baseURL: 'http://newsapi.org/v2/',
-  params: {
-    apiKey: 'abeb1fead2de446d8cf3c831a721e668',
-    language: 'en',
-  },
-});
+// const api = axios.create({
+//   baseURL: 'http://newsapi.org/v2/',
+//   params: {
+//     apiKey: 'abeb1fead2de446d8cf3c831a721e668',
+//     language: 'en',
+//   },
+// });
 
-const refs = {
-  searchForm: document.querySelector('.search-form'),
-  articlesContainer: document.querySelector('.articles'),
-  loadMoreBtn: document.querySelector('button[data-action="load-more"]'),
-  loadMoreSpinner: document.querySelector('.load-more-spinner'),
-};
-
-function renderArticles(articles = []) {
-  const markup = articles.reduce(
-    (html, { url, urlToImage, title, author, description }) =>
-      html +
-      `
-<li>
-  <a href="${url}" target="_blank" rel="noopener noreferrer">
-  <article>
-    <img src="${urlToImage}" alt="${title} width="480">
-    <h2>${title}</h2>
-    <p>Posted by: ${author}</p>
-    <div class="description-wrapper">
-      <p class="description">${description}</p>
-    </div>
-  </article></a>
-</li>
-    `,
-    ''
-  );
-
-  refs.articlesContainer.insertAdjacentHTML('beforeend', markup);
-}
-
-// api.get('everything?q=cat&pageSize=2&page=1')
-
-// const getArticles = params => {
-//   return api
-//     .get('everything', { params })
-//     .then(response => response.data)
-//     .catch(console.error);
+// const refs = {
+//   searchForm: document.querySelector('.search-form'),
+//   articlesContainer: document.querySelector('.articles'),
+//   loadMoreBtn: document.querySelector('button[data-action="load-more"]'),
+//   loadMoreSpinner: document.querySelector('.load-more-spinner'),
 // };
 
-const getArticles = async params => {
-  try {
-    const response = await api.get('everything', { params });
-    return response.data;
-  } catch (error) {
-    console.error(error);
-  }
-};
+// function renderArticles(articles = []) {
+//   const markup = articles.reduce(
+//     (html, { url, urlToImage, title, author, description }) =>
+//       html +
+//       `
+// <li>
+//   <a href="${url}" target="_blank" rel="noopener noreferrer">
+//   <article>
+//     <img src="${urlToImage}" alt="${title} width="480">
+//     <h2>${title}</h2>
+//     <p>Posted by: ${author}</p>
+//     <div class="description-wrapper">
+//       <p class="description">${description}</p>
+//     </div>
+//   </article></a>
+// </li>
+//     `,
+//     ''
+//   );
 
-const createGetArticlesRequest = q => {
-  let page = 1;
-  let isLastPage = false;
-  const pageSize = 5;
+//   refs.articlesContainer.insertAdjacentHTML('beforeend', markup);
+// }
 
-  return async () => {
-    try {
-      if (isLastPage) {
-        refs.loadMoreBtn.classList.add('is-hidden');
-        return [];
-      }
+// // api.get('everything?q=cat&pageSize=2&page=1')
 
-      const { articles, totalResults } = await getArticles({
-        page,
-        pageSize,
-        q,
-      });
+// // const getArticles = params => {
+// //   return api
+// //     .get('everything', { params })
+// //     .then(response => response.data)
+// //     .catch(console.error);
+// // };
 
-      if (page >= Math.ceil(totalResults / pageSize)) {
-        isLastPage = true;
-      }
-      page += 1;
+// const getArticles = async params => {
+//   try {
+//     const response = await api.get('everything', { params });
+//     return response.data;
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
 
-      return articles;
-    } catch (error) {
-      console.error(error);
-    }
-  };
-};
+// const createGetArticlesRequest = q => {
+//   let page = 1;
+//   let isLastPage = false;
+//   const pageSize = 5;
 
-const fetchArticlesWithRender = async articlesFetcher => {
-  const articles = await articlesFetcher();
-  // renderArticles(articles);
-};
+//   return async () => {
+//     try {
+//       if (isLastPage) {
+//         refs.loadMoreBtn.classList.add('is-hidden');
+//         return [];
+//       }
 
-let doFetch = null;
+//       const { articles, totalResults } = await getArticles({
+//         page,
+//         pageSize,
+//         q,
+//       });
 
-refs.searchForm.addEventListener('submit', async e => {
-  e.preventDefault();
+//       if (page >= Math.ceil(totalResults / pageSize)) {
+//         isLastPage = true;
+//       }
+//       page += 1;
 
-  if (doFetch !== null) {
-    refs.loadMoreBtn.removeEventListener('click', doFetch);
-    doFetch = null;
-  }
+//       return articles;
+//     } catch (error) {
+//       console.error(error);
+//     }
+//   };
+// };
 
-  refs.articlesContainer.innerHTML = '';
+// const fetchArticlesWithRender = async articlesFetcher => {
+//   const articles = await articlesFetcher();
+//   // renderArticles(articles);
+// };
 
-  const data = new FormData(e.currentTarget);
+// let doFetch = null;
 
-  const query = data.get('query');
+// refs.searchForm.addEventListener('submit', async e => {
+//   e.preventDefault();
 
-  const fetchArticles = createGetArticlesRequest(query);
-  fetchArticlesWithRender(fetchArticles);
+//   if (doFetch !== null) {
+//     refs.loadMoreBtn.removeEventListener('click', doFetch);
+//     doFetch = null;
+//   }
 
-  doFetch = async () => {
-    const articles = await makePromiseWithSpinner({
-      promise: fetchArticles,
-      spinner: refs.loadMoreSpinner,
-    });
+//   refs.articlesContainer.innerHTML = '';
 
-    renderArticles(articles);
-  };
+//   const data = new FormData(e.currentTarget);
 
-  await makePromiseWithSpinner({
-    promise: doFetch,
-    spinner: refs.loadMoreBtn,
-  });
+//   const query = data.get('query');
 
-  refs.loadMoreBtn.classList.add('is-hidden');
-  await doFetch();
-  refs.loadMoreBtn.classList.remove('is-hidden');
+//   const fetchArticles = createGetArticlesRequest(query);
+//   fetchArticlesWithRender(fetchArticles);
 
-  refs.loadMoreBtn.addEventListener('click', doFetch);
+//   doFetch = async () => {
+//     const articles = await makePromiseWithSpinner({
+//       promise: fetchArticles,
+//       spinner: refs.loadMoreSpinner,
+//     });
 
-  e.target.reset();
-});
+//     renderArticles(articles);
+//   };
 
-async function makePromiseWithSpinner({
-  promise,
-  spinner,
-  className = 'is-hidden',
-}) {
-  spinner.classList.remove(className);
-  const response = await promise();
-  spinner.classList.add(className);
+//   await makePromiseWithSpinner({
+//     promise: doFetch,
+//     spinner: refs.loadMoreBtn,
+//   });
 
-  return response;
-}
+//   refs.loadMoreBtn.classList.add('is-hidden');
+//   await doFetch();
+//   refs.loadMoreBtn.classList.remove('is-hidden');
+
+//   refs.loadMoreBtn.addEventListener('click', doFetch);
+
+//   e.target.reset();
+// });
+
+// async function makePromiseWithSpinner({
+//   promise,
+//   spinner,
+//   className = 'is-hidden',
+// }) {
+//   spinner.classList.remove(className);
+//   const response = await promise();
+//   spinner.classList.add(className);
+
+//   return response;
+// }
 
 //?============================
 
@@ -2074,15 +2074,31 @@ async function makePromiseWithSpinner({
 
 //?============================
 
-const arr1 = [5, 12, 8, 130, 44];
-const arr2 = [3, 9, 2, 33, 19];
+// const arr1 = [5, 12, 8, 130, 44];
+// const arr2 = [3, 9, 2, 33, 19];
 
-const fn = (arr1, arr2) => {
-  const arr = [...arr1, ...arr2].sort((a, b) => a - b);
+// const fn = (arr1, arr2) => {
+//   const arr = [...arr1, ...arr2].sort((a, b) => a - b);
 
-  const set = new Set(arr);
+//   const set = new Set(arr);
 
-  return [...set];
+//   return [...set];
+// };
+
+// console.log(fn(arr1, arr2));
+
+//?============================
+//* перестановка массива
+
+const arr = [1, 2, 3, 4, 5];
+
+const fn = (arr, k) => {
+  k %= arr.length;
+
+  const p1 = arr.slice(-k)
+  const p2 = arr.slice(0, arr.length - k)
+
+  return [...p1, ...p2]
 };
 
-console.log(fn(arr1, arr2));
+console.log(fn(arr, 8));
