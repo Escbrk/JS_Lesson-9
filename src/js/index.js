@@ -2003,3 +2003,86 @@ async function makePromiseWithSpinner({
 }
 
 //?============================
+
+// const arr = [[1, 2, 3], [4, 5, 6], [1, 2, 3], [7, 8, 9], [4, 5, 6], []];
+
+// // const fn = arr => {
+// //   return arr
+// //     .sort()
+// //     .map(JSON.stringify)
+// //     .filter((el, idx, self) => self.indexOf(el) === idx)
+// //     .map(JSON.parse)
+// //     .filter(arr => arr.length !== 0);
+// // };
+
+// // console.log('In console: ', fn(arr));
+
+// // const fn = arr => {
+// // const set = new Set()
+
+// //   arr.forEach(arr => {
+// //     if (arr.length > 0) {
+// //       set.add(JSON.stringify(arr))
+// //     }
+// //   })
+
+// //   return [...set].map(JSON.parse)
+// // };
+
+// // console.log('In console: ', fn(arr));
+
+// const isEqual = (arr1, arr2) => {
+//   if (arr1.length !== arr2.length) return false;
+
+//   // for (let i = 0; i < arr.length; i += 1) {
+//   //   if (arr1[i] !== arr2[i]) return false;
+//   // }
+//   // return true
+
+//   return arr1.every((value, idx) => value === arr2[idx])
+
+// };
+
+// const fn = arr => {
+//   // const uniqArr = []
+
+//   // arr.forEach(subArr => {
+//   //   if (subArr.length > 0) {
+//   //     const isDuplicate = uniqArr.some(exstArr => isEqual(exstArr, subArr))
+
+//   //     if (!isDuplicate) {
+//   //       uniqArr.push(subArr)
+//   //     }
+//   //   }
+//   // })
+//   // return uniqArr
+
+//   return arr.reduce((uniqArr, subArr) => {
+//     if (subArr.length > 0) {
+//       const isDuplicate = uniqArr.some(exstArr => isEqual(exstArr, subArr))
+
+//       if(!isDuplicate) uniqArr.push(subArr)
+//     }
+
+//     return uniqArr
+//   }, [])
+
+// }
+// const ar = [[1, 2, 3], [4, 5, 6], [1, 2, 3], [7, 8, 9], [4, 5, 6], []];
+
+// console.log(fn(arr))
+
+//?============================
+
+const arr1 = [5, 12, 8, 130, 44];
+const arr2 = [3, 9, 2, 33, 19];
+
+const fn = (arr1, arr2) => {
+  const arr = [...arr1, ...arr2].sort((a, b) => a - b);
+
+  const set = new Set(arr);
+
+  return [...set];
+};
+
+console.log(fn(arr1, arr2));
